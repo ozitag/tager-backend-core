@@ -1,0 +1,24 @@
+{
+  "name": "ozitag/tager-backend-core",
+  "description": "Base components for tager-backend",
+  "license": "MIT",
+  "homepage": "https://github.com/ozitag/tager-backend-core",
+  "authors": [
+    {
+      "name": "Vital Ozierski <v.ozierski@ozitag.com>",
+      "email": "v.ozierski@ozitag.com",
+      "homepage": "https://ozitag.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^7.2.5",
+    "doctrine/dbal": "^2.10",
+    "laravel/framework": "^7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "OZiTAG\\Backend\\Core\\": "src"
+    }
+  }
+}
