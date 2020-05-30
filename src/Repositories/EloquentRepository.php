@@ -4,7 +4,7 @@ namespace OZiTAG\Tager\Backend\Core\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BaseRepository implements IBaseRepository
+class EloquentRepository implements IEloquentRepository
 {
     /**
      * @var Model
@@ -12,7 +12,7 @@ class BaseRepository implements IBaseRepository
     protected $model;
 
     /**
-     * BaseRepository constructor.
+     * EloquentRepository constructor.
      *
      * @param Model $model
      */

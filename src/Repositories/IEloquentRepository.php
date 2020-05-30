@@ -4,7 +4,7 @@ namespace OZiTAG\Tager\Backend\Core\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 
-interface IBaseRepository
+interface IEloquentRepository
 {
     /**
      * @param array $attributes
