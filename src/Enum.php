@@ -2,7 +2,7 @@
 
 namespace OZiTAG\Tager\Backend\Core;
 
-final class Enum extends \BenSampo\Enum\Enum
+class Enum extends \BenSampo\Enum\Enum
 {
 
 }
