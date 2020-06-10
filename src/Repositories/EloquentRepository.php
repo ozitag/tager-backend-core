@@ -21,15 +21,13 @@ class EloquentRepository implements IEloquentRepository
         $this->model = $model;
     }
 
-    public function set(Model $model)
+    /**
+     * @return Model
+     */
+    public function createModelInstance(): Model
     {
-        $this->model = $model;
-        return $this->model;
-    }
-
-    public function setById($id)
-    {
-        $this->model = $this->findBy($this->model->getKeyName(), $id);
+        $className = get_class($this->model);
+        $this->model = new $className;
         return $this->model;
     }
 
@@ -41,6 +39,18 @@ class EloquentRepository implements IEloquentRepository
     public function create(array $attributes): Model
     {
         return $this->model->create($attributes);
+    }
+
+    public function set(Model $model)
+    {
+        $this->model = $model;
+        return $this->model;
+    }
+
+    public function setById($id)
+    {
+        $this->model = $this->findBy($this->model->getKeyName(), $id);
+        return $this->model;
     }
 
     /**

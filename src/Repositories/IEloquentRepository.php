@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 interface IEloquentRepository
 {
     /**
+     * @return Model
+     */
+    public function createModelInstance(): Model;
+
+    /**
      * @param array $attributes
      * @return Model
      */
