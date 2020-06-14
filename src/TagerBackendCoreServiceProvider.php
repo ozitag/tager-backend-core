@@ -2,10 +2,10 @@
 
 namespace OZiTAG\Tager\Backend\Core;
 
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\ServiceProvider;
 
-class TagerBackendCoreServiceProvider extends ServiceProvider
+class TagerBackendCoreServiceProvider extends RouteServiceProvider
 {
     /**
      * Register any application services.
@@ -14,6 +14,7 @@ class TagerBackendCoreServiceProvider extends ServiceProvider
      */
     public function register()
     {
+
 
     }
 
@@ -25,6 +26,8 @@ class TagerBackendCoreServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadMigrationsFrom(__DIR__ . '/../migrations');
+
+        Route::pattern('id', '[0-9]+');
 
         if (is_file(base_path('routes/public.php'))) {
             Route::prefix('')->group(base_path('routes/public.php'));
