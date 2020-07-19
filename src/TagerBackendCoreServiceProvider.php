@@ -32,5 +32,7 @@ class TagerBackendCoreServiceProvider extends RouteServiceProvider
         if (is_file(base_path('routes/public.php'))) {
             Route::prefix('')->group(base_path('routes/public.php'));
         }
+
+        parent::boot();
     }
 }
