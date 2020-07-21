@@ -2,17 +2,13 @@
 
 namespace OZiTAG\Tager\Backend\Core;
 
-use OZiTAG\Tager\Backend\Core\Traits\MarshalTrait;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Support\Collection;
+use OZiTAG\Tager\Backend\Core\Traits\JobDispatcherTrait;
+use OZiTAG\Tager\Backend\Core\Traits\MarshalTrait;
 
 class Feature
 {
-    use DispatchesJobs;
     use MarshalTrait;
-
-    public function run($feature, $arguments = [])
-    {
-        return $this->dispatchNow($this->marshal($feature, new Collection(), $arguments));
-    }
+    use DispatchesJobs;
+    use JobDispatcherTrait;
 }
