@@ -30,7 +30,7 @@ class TagerBackendCoreServiceProvider extends RouteServiceProvider
         Route::pattern('id', '[0-9]+');
 
         if (is_file(base_path('routes/public.php'))) {
-            Route::prefix('')->group(base_path('routes/public.php'));
+            Route::prefix('')->middleware('api')->group(base_path('routes/public.php'));
         }
 
         parent::boot();
