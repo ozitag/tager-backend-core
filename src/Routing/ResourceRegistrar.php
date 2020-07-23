@@ -68,6 +68,26 @@ class ResourceRegistrar extends BaseResourceRegistrar {
         return $this->router->delete($uri, $action);
     }
 
+    /**
+     * Add the show method for a resourceful route.
+     *
+     * @param  string  $name
+     * @param  string  $base
+     * @param  string  $controller
+     * @param  array  $options
+     * @return \Illuminate\Routing\Route
+     */
+    protected function addResourceShow($name, $base, $controller, $options)
+    {
+        $name = $this->getShallowName($name, $options);
+
+        $uri = $this->getResourceUri($name).'/{'.$base.'}';
+
+        $action = $this->getResourceAction($name, $controller, 'view', $options);
+
+        return $this->router->get($uri, $action);
+    }
+
     public function getResourceWildcard($value)
     {
         return 'id';
