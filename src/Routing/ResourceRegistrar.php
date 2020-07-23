@@ -44,7 +44,7 @@ class ResourceRegistrar extends BaseResourceRegistrar {
 
         $action = $this->getResourceAction($name, $controller, 'update', $options);
 
-        return $this->router->post($uri, $action);
+        return $this->router->put($uri, $action);
     }
 
 
