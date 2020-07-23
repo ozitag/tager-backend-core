@@ -1,6 +1,6 @@
 <?php
 
-namespace OZiTAG\Tager\Backend\Core;
+namespace OZiTAG\Tager\Backend\Core\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

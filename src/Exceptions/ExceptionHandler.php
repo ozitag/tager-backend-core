@@ -1,6 +1,6 @@
 <?php
 
-namespace OZiTAG\Tager\Backend\Core;
+namespace OZiTAG\Tager\Backend\Core\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as BaseExceptionHandler;
 use Throwable;

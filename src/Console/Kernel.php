@@ -1,10 +1,10 @@
 <?php
 
-namespace OZiTAG\Tager\Backend\Core\Kernel;
+namespace OZiTAG\Tager\Backend\Core\Console;
 
 use Illuminate\Foundation\Console\Kernel as BaseConsoleKernel;
 
-class ConsoleKernel extends BaseConsoleKernel
+class Kernel extends BaseConsoleKernel
 {
     /**
      * Register the commands for the application.

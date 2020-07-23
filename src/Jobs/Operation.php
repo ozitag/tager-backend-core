@@ -1,6 +1,6 @@
 <?php
 
-namespace OZiTAG\Tager\Backend\Core;
+namespace OZiTAG\Tager\Backend\Core\Jobs;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use OZiTAG\Tager\Backend\Core\Traits\JobDispatcherTrait;

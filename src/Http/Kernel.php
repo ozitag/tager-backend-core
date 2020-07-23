@@ -1,8 +1,8 @@
 <?php
 
-namespace OZiTAG\Tager\Backend\Core\Kernel;
+namespace OZiTAG\Tager\Backend\Core\Http;
 
-class HttpKernel extends Illuminate\Foundation\Http\Kernel
+class Kernel extends Illuminate\Foundation\Http\Kernel
 {
     /**
      * The application's global HTTP middleware stack.
