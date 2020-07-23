@@ -2,7 +2,7 @@
 
 namespace OZiTAG\Tager\Backend\Core\Http;
 
-class Kernel extends Illuminate\Foundation\Http\Kernel
+class Kernel extends \Illuminate\Foundation\Http\Kernel
 {
     /**
      * The application's global HTTP middleware stack.
