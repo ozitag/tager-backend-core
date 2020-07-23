@@ -25,7 +25,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      * @var array
      */
     protected $routeMiddleware = [
-        'api.cache' => OZiTAG\Tager\Backend\HttpCache\Middleware\CacheHttp::class,
-        'api.disable-cache' => OZiTAG\Tager\Backend\HttpCache\Middleware\DoNotCacheHttp::class
+        'api.cache' => \OZiTAG\Tager\Backend\HttpCache\Middleware\CacheHttp::class,
+        'api.disable-cache' => \OZiTAG\Tager\Backend\HttpCache\Middleware\DoNotCacheHttp::class
     ];
 }
