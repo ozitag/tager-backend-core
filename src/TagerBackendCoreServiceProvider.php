@@ -3,7 +3,10 @@
 namespace OZiTAG\Tager\Backend\Core;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
+use OZiTAG\Tager\Backend\Core\Routing\ApiResource;
+use OZiTAG\Tager\Backend\Core\Routing\ResourceRegistrar;
 use OZiTAG\Tager\Backend\Core\Validation\Validator;
 
 class TagerBackendCoreServiceProvider extends RouteServiceProvider
@@ -15,8 +18,10 @@ class TagerBackendCoreServiceProvider extends RouteServiceProvider
      */
     public function register()
     {
-
-
+        ApiResource::register();
+        $this->app->bind(\Illuminate\Routing\ResourceRegistrar::class, function () {
+            return new ResourceRegistrar(app()->make(Router::class));
+        });
     }
 
     /**
