@@ -18,7 +18,7 @@ class Controller extends BaseController
         return [];
     }
 
-    private function serveFeatureByKey($key, $params = [])
+    private function serveFeatureByKey($key, $arguments = [])
     {
         $features = $this->features();
 
@@ -29,17 +29,17 @@ class Controller extends BaseController
         $feature = $features[$key];
 
         if (is_string($feature)) {
-            return $this->serve($feature, $params);
+            return $this->serve($feature, $arguments);
         } else if (is_array($feature)) {
             $featureName = array_shift($feature);
 
             $reflection = new \ReflectionClass($featureName);
             $constructorParams = $reflection->getConstructor()->getParameters();
 
-            $featureParams = $params;
+            $featureParams = $arguments;
             foreach ($constructorParams as $ind => $param) {
-                if ($ind < count($params)) continue;
-                $featureParams[$param->getName()] = $feature[$ind - count($params)];
+                if ($ind < count($arguments)) continue;
+                $featureParams[$param->getName()] = $feature[$ind - count($arguments)];
             }
 
             return $this->serve($featureName, $featureParams);
@@ -60,7 +60,7 @@ class Controller extends BaseController
     protected function serve($feature, $arguments = [])
     {
         if (!class_exists($feature)) {
-            return $this->serveFeatureByKey($feature);
+            return $this->serveFeatureByKey($feature, $arguments);
         }
 
         return $this->dispatchNow($this->marshal($feature, new Collection(), $arguments));
