@@ -2,8 +2,6 @@
 
 namespace OZiTAG\Tager\Backend\Core\Controllers;
 
-use OZiTAG\Tager\Backend\Core\Controller;
-
 abstract class CrudController extends Controller
 {
     const INDEX = 'index';

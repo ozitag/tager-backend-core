@@ -19,7 +19,8 @@
     "fruitcake/laravel-cors": "^2.0",
     "guzzlehttp/guzzle": "^6.3",
     "doctrine/dbal": "^2.0",
-    "bensampo/laravel-enum": "^2.0"
+    "bensampo/laravel-enum": "^2.0",
+    "ozitag/tager-backend-http-cache": "^1.0"
   },
   "autoload": {
     "psr-4": {

@@ -1,6 +1,6 @@
 <?php
 
-namespace OZiTAG\Tager\Backend\Seo\Features;
+namespace OZiTAG\Tager\Backend\Core\Features;
 
 class ModelFeature extends Feature
 {
