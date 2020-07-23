@@ -1,6 +1,6 @@
 <?php
 
-namespace OZiTAG\Tager\Backend\Core;
+namespace OZiTAG\Tager\Backend\Core\Controllers;
 
 use OZiTAG\Tager\Backend\Core\Traits\MarshalTrait;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;

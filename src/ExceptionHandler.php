@@ -2,10 +2,10 @@
 
 namespace OZiTAG\Tager\Backend\Core;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Foundation\Exceptions\Handler as BaseExceptionHandler;
 use Throwable;
 
-class Handler extends ExceptionHandler
+class ExceptionHandler extends BaseExceptionHandler
 {
     /**
      * A list of the exception types that are not reported.

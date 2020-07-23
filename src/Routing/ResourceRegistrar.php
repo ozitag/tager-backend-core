@@ -3,7 +3,6 @@
 namespace OZiTAG\Tager\Backend\Core\Routing;
 
 use Illuminate\Routing\ResourceRegistrar as BaseResourceRegistrar;
-use Illuminate\Support\Str;
 
 class ResourceRegistrar extends BaseResourceRegistrar {
 

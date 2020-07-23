@@ -2,8 +2,6 @@
 
 namespace OZiTAG\Tager\Backend\Core\Routing;
 
-
-use Illuminate\Routing\ResourceRegistrar;
 use Illuminate\Routing\Router;
 
 class ApiResource {

@@ -3,7 +3,6 @@
 namespace OZiTAG\Tager\Backend\Core;
 
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\ValidationException;
 
 class FormRequest extends \Illuminate\Foundation\Http\FormRequest
