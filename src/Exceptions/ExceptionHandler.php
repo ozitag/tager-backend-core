@@ -3,6 +3,7 @@
 namespace OZiTAG\Tager\Backend\Core\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as BaseExceptionHandler;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class ExceptionHandler extends BaseExceptionHandler
@@ -54,5 +55,18 @@ class ExceptionHandler extends BaseExceptionHandler
     public function render($request, Throwable $exception)
     {
         return parent::render($request, $exception);
+    }
+
+
+    /**
+     * Create a response object from the given validation exception.
+     *
+     * @param  \Illuminate\Validation\ValidationException  $e
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function convertValidationExceptionToResponse(ValidationException $e, $request)
+    {
+        return $e->response ?? $this->invalidJson($request, $e);
     }
 }

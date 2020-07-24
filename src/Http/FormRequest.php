@@ -19,7 +19,6 @@ class FormRequest extends \Illuminate\Foundation\Http\FormRequest
     {
         throw (new ValidationException($validator))
             ->errorBag($this->errorBag)
-            ->status(400)
-            ->redirectTo($this->getRedirectUrl());
+            ->status(400);
     }
 }
