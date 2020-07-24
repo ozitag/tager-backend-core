@@ -51,6 +51,10 @@ abstract class ModelResource extends JsonResource
                 $field = $fieldData;
             }
 
+            if (mb_strpos($field, ':') !== false) {
+                $field = mb_substr($field, 0, mb_strpos($field, ':'));
+            }
+
             $result[$field] = $this->parseField($fieldData);
         }
 
