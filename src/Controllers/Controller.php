@@ -23,7 +23,7 @@ class Controller extends BaseController
         $features = $this->features();
 
         if (!isset($features[$key])) {
-            throw new \Exception('Feature not found');
+            abort(404, 'Feature not found');
         }
 
         $feature = $features[$key];
