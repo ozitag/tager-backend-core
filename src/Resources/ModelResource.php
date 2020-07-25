@@ -66,6 +66,21 @@ abstract class ModelResource extends JsonResource
         return $this->parseArray($as, $value);
     }
 
+    private function getRelationAttribute($model, $field)
+    {
+        $path = explode('.', $field);
+        if (count($path) == 1) {
+            return $model;
+        }
+
+        $result = $model;
+        for ($i = 0; $i < count($path); $i++) {
+            $result = $result->{$path[$i]};
+        }
+
+        return $result;
+    }
+
     private function parseField($field, $model = null)
     {
         $model = is_null($model) ? $this : $model;
@@ -75,7 +90,13 @@ abstract class ModelResource extends JsonResource
         }
 
         $fieldParams = explode(':', $field);
-        $value = $model->{$fieldParams[0]};
+
+        $attribute = $fieldParams[0];
+        if (mb_strpos($field, '.') !== false) {
+            $value = $this->getRelationAttribute($model, $field);
+        } else {
+            $value = $model->{$attribute};
+        }
 
         if (count($fieldParams) > 1) {
             if ($fieldParams[1] == 'file') {
