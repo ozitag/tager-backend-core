@@ -106,6 +106,12 @@ abstract class ModelResource extends JsonResource
         return $result;
     }
 
+    private function isAssoc(array $arr)
+    {
+        if (array() === $arr) return false;
+        return array_keys($arr) !== range(0, count($arr) - 1);
+    }
+
     private function parseField($field, $model = null)
     {
         $model = is_null($model) ? $this : $model;
@@ -114,8 +120,11 @@ abstract class ModelResource extends JsonResource
             return $this->getRelationValue($field);
         }
 
-        $fieldParams = is_array($field) ? $field : explode(':', $field);
+        if (is_array($field) && $this->isAssoc($field)) {
+            return $this->parseArray($field, $model);
+        }
 
+        $fieldParams = is_array($field) ? $field : explode(':', $field);
         $attribute = array_shift($fieldParams);
         if (mb_strpos($attribute, '.') !== false) {
             $value = $this->getRelationAttribute($model, $attribute);
