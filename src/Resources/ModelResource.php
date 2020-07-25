@@ -17,6 +17,10 @@ abstract class ModelResource extends JsonResource
      */
     private function getFileValue($value, $type)
     {
+        if (!$value || $value instanceof File == false) {
+            return null;
+        }
+
         switch ($type) {
             case 'url':
                 return $value->getUrl();
@@ -72,7 +76,7 @@ abstract class ModelResource extends JsonResource
         if ($value instanceof Collection) {
             $result = [];
             foreach ($value as $item) {
-                $result[] = $this->parseArray($as, $item);;
+                $result[] = $this->parseArray($as, $item);
             }
             return $result;
         }
@@ -99,7 +103,7 @@ abstract class ModelResource extends JsonResource
     {
         $model = is_null($model) ? $this : $model;
 
-        if (is_array($field)) {
+        if (is_array($field) && isset($field['relation'])) {
             return $this->getRelationValue($field);
         }
 
@@ -107,7 +111,7 @@ abstract class ModelResource extends JsonResource
 
         $attribute = $fieldParams[0];
         if (mb_strpos($field, '.') !== false) {
-            $value = $this->getRelationAttribute($model, $field);
+            $value = $this->getRelationAttribute($model, $attribute);
         } else {
             $value = $model->{$attribute};
         }
