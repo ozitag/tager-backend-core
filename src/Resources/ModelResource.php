@@ -29,6 +29,20 @@ abstract class ModelResource extends JsonResource
         }
     }
 
+    private function getLatLngValue($value)
+    {
+        if (!$value) {
+            return null;
+        }
+
+        list ($lat, $lng) = explode(';', $value);
+
+        return [
+            'latitude' => floatval($lat),
+            'longitude' => floatval($lng)
+        ];
+    }
+
     private function getRelationValue($field)
     {
         if (!isset($field['relation'])) {
@@ -101,6 +115,9 @@ abstract class ModelResource extends JsonResource
         if (count($fieldParams) > 1) {
             if ($fieldParams[1] == 'file') {
                 return $this->getFileValue($value, $fieldParams[2]);
+            }
+            if ($fieldParams[1] == 'LatLng') {
+                return $this->getLatLngValue($value);
             }
         }
 
