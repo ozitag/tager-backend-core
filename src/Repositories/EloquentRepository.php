@@ -31,6 +31,11 @@ class EloquentRepository implements IEloquentRepository
         return $this->model;
     }
 
+    public function reset()
+    {
+        $this->createModelInstance();
+    }
+
     /**
      * @param array $attributes
      *
