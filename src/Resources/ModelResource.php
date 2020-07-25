@@ -28,7 +28,7 @@ abstract class ModelResource extends JsonResource
 
         switch ($type) {
             case 'url':
-                return $value->getUrl($scenario);
+                return $value->getUrl($thumbnail, $scenario);
             case 'model':
                 return $value->getShortJson();
             case 'json':
