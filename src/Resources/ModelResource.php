@@ -12,22 +12,26 @@ abstract class ModelResource extends JsonResource
 
     /**
      * @param File $value
-     * @param string $type
+     * @param array $params
      * @return mixed
      */
-    private function getFileValue($value, $type)
+    private function getFileValue($value, $params)
     {
         if (!$value || $value instanceof File == false) {
             return null;
         }
 
+        $type = $params[0] ?? 'url';
+        $scenario = $params[1] ?? null;
+        $thumbnail = $params[2] ?? null;
+
         switch ($type) {
             case 'url':
-                return $value->getUrl();
+                return $value->getUrl($scenario);
             case 'model':
                 return $value->getShortJson();
             case 'json':
-                return $value->getFullJson();
+                return $thumbnail ? $value->getThumbnailJson($thumbnail) : $value->getFullJson($scenario);
             default:
                 return null;
         }
@@ -118,7 +122,7 @@ abstract class ModelResource extends JsonResource
 
         if (count($fieldParams) > 1) {
             if ($fieldParams[1] == 'file') {
-                return $this->getFileValue($value, $fieldParams[2]);
+                return $this->getFileValue($value, array_slice($fieldParams, 2));
             }
             if ($fieldParams[1] == 'LatLng') {
                 return $this->getLatLngValue($value);
