@@ -119,6 +119,10 @@ abstract class ModelResource extends JsonResource
             return $this->parseArray($field, $model);
         }
 
+        if (is_callable($field)) {
+            return call_user_func($field, $model);
+        }
+
         $fieldParams = is_array($field) ? $field : explode(':', $field);
         $attribute = array_shift($fieldParams);
         if (mb_strpos($attribute, '.') !== false) {
