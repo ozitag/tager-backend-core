@@ -31,7 +31,7 @@ abstract class ModelResource extends JsonResource
             case 'model':
                 return $value->getShortJson();
             case 'json':
-                return $thumbnail ? $value->getThumbnailJson($thumbnail) : $value->getFullJson($scenario);
+                return $thumbnail ? $value->getThumbnailJson($thumbnail, $scenario) : $value->getFullJson($scenario);
             default:
                 return null;
         }
@@ -97,6 +97,9 @@ abstract class ModelResource extends JsonResource
 
         $result = $model;
         for ($i = 0; $i < count($path); $i++) {
+            if (!$result) {
+                return null;
+            }
             $result = $result->{$path[$i]};
         }
 
@@ -111,21 +114,25 @@ abstract class ModelResource extends JsonResource
             return $this->getRelationValue($field);
         }
 
-        $fieldParams = explode(':', $field);
+        $fieldParams = is_array($field) ? $field : explode(':', $field);
 
-        $attribute = $fieldParams[0];
-        if (mb_strpos($field, '.') !== false) {
+        $attribute = array_shift($fieldParams);
+        if (mb_strpos($attribute, '.') !== false) {
             $value = $this->getRelationAttribute($model, $attribute);
         } else {
             $value = $model->{$attribute};
         }
 
-        if (count($fieldParams) > 1) {
-            if ($fieldParams[1] == 'file') {
-                return $this->getFileValue($value, array_slice($fieldParams, 2));
-            }
-            if ($fieldParams[1] == 'LatLng') {
-                return $this->getLatLngValue($value);
+        if (!empty($fieldParams)) {
+            $type = array_shift($fieldParams);
+
+            switch (mb_strtolower($type)) {
+                case 'file':
+                    return $this->getFileValue($value, $fieldParams);
+                case 'latlng':
+                    return $this->getLatLngValue($value);
+                default:
+                    throw new \Exception('Invalid type "' . $type . '"');
             }
         }
 
@@ -141,7 +148,9 @@ abstract class ModelResource extends JsonResource
                 $field = $fieldData;
             }
 
-            if (mb_strpos($field, ':') !== false) {
+            if (is_array($field)) {
+                $field = $field[0];
+            } else if (mb_strpos($field, ':') !== false) {
                 $field = mb_substr($field, 0, mb_strpos($field, ':'));
             }
 
