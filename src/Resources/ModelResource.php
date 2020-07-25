@@ -5,6 +5,7 @@ namespace OZiTAG\Tager\Backend\Core\Resources;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Ozerich\FileStorage\Models\File;
+use OZiTAG\Tager\Backend\Utils\Helpers\ArrayHelper;
 
 abstract class ModelResource extends JsonResource
 {
@@ -106,12 +107,6 @@ abstract class ModelResource extends JsonResource
         return $result;
     }
 
-    private function isAssoc(array $arr)
-    {
-        if (array() === $arr) return false;
-        return array_keys($arr) !== range(0, count($arr) - 1);
-    }
-
     private function parseField($field, $model = null)
     {
         $model = is_null($model) ? $this : $model;
@@ -120,7 +115,7 @@ abstract class ModelResource extends JsonResource
             return $this->getRelationValue($field);
         }
 
-        if (is_array($field) && $this->isAssoc($field)) {
+        if (is_array($field) && ArrayHelper::isAssoc($field)) {
             return $this->parseArray($field, $model);
         }
 
