@@ -119,7 +119,7 @@ abstract class ModelResource extends JsonResource
             return $this->parseArray($field, $model);
         }
 
-        if (is_callable($field)) {
+        if (is_callable($field) && $field instanceof \Closure) {
             return call_user_func($field, $model);
         }
 
