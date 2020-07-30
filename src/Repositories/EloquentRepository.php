@@ -54,7 +54,7 @@ class EloquentRepository implements IEloquentRepository
 
     public function setById($id)
     {
-        $this->model = $this->findBy($this->model->getKeyName(), $id);
+        $this->model = $this->find($id);
         return $this->model;
     }
 
