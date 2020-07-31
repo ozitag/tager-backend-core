@@ -89,6 +89,11 @@ abstract class ModelResource extends JsonResource
         return $this->parseArray($as, $value);
     }
 
+    private function getDateTimeValue($value)
+    {
+        return date('Y-m-d H:i:s', strtotime($value));
+    }
+
     private function getRelationAttribute($model, $field)
     {
         $path = explode('.', $field);
@@ -135,6 +140,8 @@ abstract class ModelResource extends JsonResource
             $type = array_shift($fieldParams);
 
             switch (mb_strtolower($type)) {
+                case 'datetime':
+                    return $this->getDateTimeValue($value);
                 case 'file':
                     return $this->getFileValue($value, $fieldParams);
                 case 'latlng':
