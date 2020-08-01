@@ -4,6 +4,7 @@ namespace OZiTAG\Tager\Backend\Core\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as BaseExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class ExceptionHandler extends BaseExceptionHandler
@@ -14,7 +15,12 @@ class ExceptionHandler extends BaseExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
+        \Illuminate\Auth\AuthenticationException::class,
+        \Illuminate\Auth\Access\AuthorizationException::class,
+        \Illuminate\Validation\UnauthorizedException::class,
+        \Symfony\Component\HttpKernel\Exception\HttpException::class,
+        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
+        \Illuminate\Validation\ValidationException::class
     ];
 
     /**
@@ -54,6 +60,9 @@ class ExceptionHandler extends BaseExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if ($exception instanceof NotFoundHttpException && $request->wantsJson()) {
+            return response(['message' => 'Not Found.'], 404);
+        }
         return parent::render($request, $exception);
     }
 
