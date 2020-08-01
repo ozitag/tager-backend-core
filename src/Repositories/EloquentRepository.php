@@ -31,6 +31,11 @@ class EloquentRepository implements IEloquentRepository
         return $this->model;
     }
 
+    public function reset()
+    {
+        $this->createModelInstance();
+    }
+
     /**
      * @param array $attributes
      *
@@ -49,7 +54,7 @@ class EloquentRepository implements IEloquentRepository
 
     public function setById($id)
     {
-        $this->model = $this->findBy($this->model->getKeyName(), $id);
+        $this->model = $this->find($id);
         return $this->model;
     }
 
