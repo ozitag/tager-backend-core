@@ -25,6 +25,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      * @var array
      */
     protected $routeMiddleware = [
+        'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
         'api.cache' => \OZiTAG\Tager\Backend\HttpCache\Middleware\CacheHttp::class,
         'api.disable-cache' => \OZiTAG\Tager\Backend\HttpCache\Middleware\DoNotCacheHttp::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
