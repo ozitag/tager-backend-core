@@ -9,7 +9,7 @@ use OZiTAG\Tager\Backend\Core\Routing\ApiResource;
 use OZiTAG\Tager\Backend\Core\Routing\ResourceRegistrar;
 use OZiTAG\Tager\Backend\Core\Validation\Validator;
 
-class TagerBackendCoreServiceProvider extends RouteServiceProvider
+class CoreServiceProvider extends RouteServiceProvider
 {
     /**
      * Register any application services.
