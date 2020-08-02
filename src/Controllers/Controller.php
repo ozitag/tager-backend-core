@@ -8,10 +8,11 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Collection;
+use OZiTAG\Tager\Backend\Core\Traits\UserAccess;
 
 class Controller extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, MarshalTrait;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, MarshalTrait, UserAccess;
 
     protected function features()
     {
