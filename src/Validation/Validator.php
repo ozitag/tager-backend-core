@@ -2,9 +2,7 @@
 
 namespace OZiTAG\Tager\Backend\Core\Validation;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator as BaseValidator;
 use OZiTAG\Tager\Backend\Core\Support\MessageBag;
 
@@ -46,6 +44,38 @@ class Validator extends BaseValidator
         ]);
 
         $this->failedRules[$attribute][$rule] = $parameters;
+    }
+
+
+    /**
+     * Validate an attribute using a custom rule object.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @param  \Illuminate\Contracts\Validation\Rule  $rule
+     * @return void
+     */
+    protected function validateUsingCustomRule($attribute, $value, $rule)
+    {
+        if (!$rule->passes($attribute, $value)) {
+
+            if(!($this->messages instanceof MessageBag)) {
+                $this->resetMessageBag();
+            }
+
+            $this->failedRules[$attribute][get_class($rule)] = [];
+
+            $messages = $rule->message();
+            $messages = $messages ? (array) $messages : [get_class($rule)];
+            $messageType = config()->get('tager-core.multiple_validation_errors') ? 'add' : 'set';
+
+            foreach ($messages as $message) {
+                $this->messages->$messageType($attribute, [
+                    'code' => $this->getCode(class_basename($rule)),
+                    'message' => $message ?? $this->getMessage(class_basename($rule)),
+                ]);
+            }
+        }
     }
 
     protected function getMessage($rule, $parameters = [])
