@@ -60,6 +60,9 @@ abstract class ModelResource extends JsonResource
 
         $relation = $field['relation'];
         $value = $this->{$relation};
+        if(!$value){
+            return null;
+        }
 
         if (!isset($field['as'])) {
             throw new \Exception('As not set');
@@ -103,9 +106,10 @@ abstract class ModelResource extends JsonResource
 
         $result = $model;
         for ($i = 0; $i < count($path); $i++) {
-            if (!$result) {
+            if (!$result || !$result->{$path[$i]}) {
                 return null;
             }
+
             $result = $result->{$path[$i]};
         }
 
