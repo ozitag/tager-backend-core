@@ -8,7 +8,7 @@ use OZiTAG\Tager\Backend\Core\Support\MessageBag;
 
 class Validator extends BaseValidator
 {
-    protected function resetMessageBag() {
+    public function resetMessageBag() {
         $this->messages = new MessageBag;
     }
 
