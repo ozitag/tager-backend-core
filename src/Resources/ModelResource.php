@@ -150,6 +150,9 @@ abstract class ModelResource extends JsonResource
                     return $this->getFileValue($value, $fieldParams);
                 case 'latlng':
                     return $this->getLatLngValue($value);
+                case 'bool':
+                case 'boolean':
+                    return (bool)$value;
                 default:
                     throw new \Exception('Invalid type "' . $type . '"');
             }
