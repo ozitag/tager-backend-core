@@ -9,8 +9,5 @@ use OZiTAG\Tager\Backend\Core\Traits\UserAccess;
 
 abstract class Operation
 {
-    use MarshalTrait;
-    use DispatchesJobs;
-    use JobDispatcherTrait;
-    use UserAccess;
+    use MarshalTrait, DispatchesJobs, JobDispatcherTrait, UserAccess;
 }

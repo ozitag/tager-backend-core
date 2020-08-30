@@ -9,6 +9,16 @@ use OZiTAG\Tager\Backend\Core\Events\OperationStarted;
 
 trait JobDispatcherTrait
 {
+    use ExceptionHandler;
+    /**
+     * @param string $job
+     * @param array $arguments
+     * @return mixed
+     */
+    protected function runWithHandler(string $job, array $arguments = []) {
+        return $this->withExceptionHandler(fn () => $this->run($job, $arguments));
+    }
+
     /**
      * beautifier function to be called instead of the
      * laravel function dispatchFromArray.
