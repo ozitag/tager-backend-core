@@ -92,6 +92,11 @@ abstract class Command extends BaseCommand
         }
     }
 
+    protected function write($message)
+    {
+        echo $message . "\n";
+    }
+
     protected function log($message, $lineComplete = true)
     {
         $prefix = ($this->lineCompleted ? DateHelper::getHumanDateTime() . ' - ' : '');
