@@ -17,8 +17,6 @@ abstract class Command extends BaseCommand
     use DispatchesJobs;
     use MarshalTrait;
 
-    abstract function handle();
-
     /** @var string */
     protected $log;
 
