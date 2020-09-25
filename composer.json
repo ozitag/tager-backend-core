@@ -12,13 +12,13 @@
     }
   ],
   "require": {
-    "php": "^7.2.5",
-    "laravel/framework": "^7.0",
-    "laravel/tinker": "^2.0",
-    "fideloper/proxy": "^4.2",
+    "php": "^7.4",
+    "laravel/framework": "^8.0",
+    "laravel/tinker": "^2.4",
+    "fideloper/proxy": "^4.4",
     "guzzlehttp/guzzle": "^6.3",
-    "doctrine/dbal": "^2.0",
-    "bensampo/laravel-enum": "^2.0",
+    "doctrine/dbal": "^2.11",
+    "bensampo/laravel-enum": "^3.0",
     "ozitag/tager-backend-http-cache": "^1.0"
   },
   "autoload": {
