@@ -144,6 +144,8 @@ abstract class ModelResource extends JsonResource
             $type = array_shift($fieldParams);
 
             switch (mb_strtolower($type)) {
+                case 'number':
+                    return floatval($value);
                 case 'datetime':
                     return $this->getDateTimeValue($value);
                 case 'file':
