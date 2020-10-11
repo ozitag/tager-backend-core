@@ -60,7 +60,7 @@ abstract class ModelResource extends JsonResource
 
         $relation = $field['relation'];
         $value = $this->{$relation};
-        if(!$value){
+        if (!$value) {
             return null;
         }
 
@@ -145,16 +145,16 @@ abstract class ModelResource extends JsonResource
 
             switch (mb_strtolower($type)) {
                 case 'number':
-                    return floatval($value);
+                    return is_null($value) ? null : floatval($value);
                 case 'datetime':
-                    return $this->getDateTimeValue($value);
+                    return is_null($value) ? null : $this->getDateTimeValue($value);
                 case 'file':
-                    return $this->getFileValue($value, $fieldParams);
+                    return is_null($value) ? null : $this->getFileValue($value, $fieldParams);
                 case 'latlng':
-                    return $this->getLatLngValue($value);
+                    return is_null($value) ? null : $this->getLatLngValue($value);
                 case 'bool':
                 case 'boolean':
-                    return (bool)$value;
+                    return is_null($value) ? null : (bool)$value;
                 default:
                     throw new \Exception('Invalid type "' . $type . '"');
             }
