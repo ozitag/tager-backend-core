@@ -94,7 +94,44 @@ abstract class ModelResource extends JsonResource
 
     private function getDateTimeValue($value)
     {
-        return date('Y-m-d H:i:s', strtotime($value));
+        if (!$value) {
+            return null;
+        }
+
+        if (is_string($value)) {
+            return date('Y-m-d H:i:s', strtotime($value));
+        }
+
+        if (is_numeric($value)) {
+            return date('Y-m-d H:i:s', strtotime($value));
+        }
+
+        if ($value instanceof \DateTime) {
+            return $value->format('Y-m-d H:i:s');
+        }
+
+        return null;
+    }
+
+    private function getDateValue($value)
+    {
+        if (!$value) {
+            return null;
+        }
+
+        if (is_string($value)) {
+            return date('Y-m-d', strtotime($value));
+        }
+
+        if (is_numeric($value)) {
+            return date('Y-m-d', strtotime($value));
+        }
+
+        if ($value instanceof \DateTime) {
+            return $value->format('Y-m-d');
+        }
+
+        return null;
     }
 
     private function getRelationAttribute($model, $field)
@@ -144,17 +181,19 @@ abstract class ModelResource extends JsonResource
             $type = array_shift($fieldParams);
 
             switch (mb_strtolower($type)) {
-                case 'number':
-                    return is_null($value) ? null : floatval($value);
                 case 'datetime':
-                    return is_null($value) ? null : $this->getDateTimeValue($value);
+                    return $this->getDateTimeValue($value);
+                case 'date':
+                    return $this->getDateValue($value);
                 case 'file':
-                    return is_null($value) ? null : $this->getFileValue($value, $fieldParams);
+                    return $this->getFileValue($value, $fieldParams);
                 case 'latlng':
-                    return is_null($value) ? null : $this->getLatLngValue($value);
+                    return $this->getLatLngValue($value);
+                case 'float':
+                    return floatval($value);
                 case 'bool':
                 case 'boolean':
-                    return is_null($value) ? null : (bool)$value;
+                    return (bool)$value;
                 default:
                     throw new \Exception('Invalid type "' . $type . '"');
             }
