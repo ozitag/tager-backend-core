@@ -28,7 +28,7 @@ trait ExceptionHandler
      * @return $this
      */
     protected function logException(\Exception $exception, string $logLevel) {
-        Log::$logLevel($exception->getMessage(), $exception->getFile(), $exception->getLine());
+        Log::$logLevel([$exception->getMessage(), $exception->getFile(), $exception->getLine()]);
         return $this;
     }
 
