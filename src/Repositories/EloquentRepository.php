@@ -22,12 +22,18 @@ class EloquentRepository implements IEloquentRepository
     }
 
     /**
+     * @param array $defaultValues
      * @return Model
      */
-    public function createModelInstance(): Model
+    public function createModelInstance($defaultValues = []): Model
     {
         $className = get_class($this->model);
+
         $this->model = new $className;
+        foreach ($defaultValues as $param => $value) {
+            $this->model->{$param} = $value;
+        }
+
         return $this->model;
     }
 
