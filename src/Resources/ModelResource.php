@@ -191,6 +191,8 @@ abstract class ModelResource extends JsonResource
                     return $this->getLatLngValue($value);
                 case 'float':
                     return floatval($value);
+                case 'string':
+                    return strval($value);
                 case 'bool':
                 case 'boolean':
                     return (bool)$value;
