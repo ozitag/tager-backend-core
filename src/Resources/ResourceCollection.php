@@ -2,35 +2,38 @@
 
 namespace OZiTAG\Tager\Backend\Core\Resources;
 
-use OZiTAG\Tager\Backend\Core\Http\FormRequest;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection as BaseResourceCollection;
+use OZiTAG\Tager\Backend\Core\Pagination\Paginator;
 
 class ResourceCollection extends BaseResourceCollection
 {
-    private $resourceClass;
+    protected $originResource;
 
-    private $formRequest;
-
-    public function __construct($resource, $resourceClass, ?FormRequest $formRequest = null)
+    /**
+     * ResourceCollection constructor.
+     * @param $resource
+     */
+    public function __construct($resource)
     {
-        $this->resourceClass = $resourceClass;
-        $this->formRequest = $formRequest;
-
+        $this->originResource = $resource;
         parent::__construct($resource);
     }
 
+    /**
+     * @param Request $request
+     * @return array
+     */
     public function toArray($request)
     {
-        $className = $this->resourceClass;
+        $data = [
+            self::$wrap => $this->collection->toArray(),
+        ];
 
-        return $this->collection->transform(function ($item) use ($className) {
-            $resource = new $className($item);
+        if($this->originResource instanceof Paginator) {
+            $data['meta'] = $this->originResource->getMeta();
+        }
 
-            if ($this->formRequest) {
-                $resource->withRequest($this->formRequest);
-            }
-
-            return $resource;
-        });
+        return $data;
     }
 }

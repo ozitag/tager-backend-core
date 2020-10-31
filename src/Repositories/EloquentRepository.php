@@ -2,7 +2,11 @@
 
 namespace OZiTAG\Tager\Backend\Core\Repositories;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use OZiTAG\Tager\Backend\Core\Facades\Pagination;
+use OZiTAG\Tager\Backend\Core\Pagination\Paginator;
 
 class EloquentRepository implements IEloquentRepository
 {
@@ -76,7 +80,7 @@ class EloquentRepository implements IEloquentRepository
     /**
      * Returns the first record in the database.
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public function first(): ?Model
     {
@@ -86,11 +90,40 @@ class EloquentRepository implements IEloquentRepository
     /**
      * Returns all the records.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
     public function all()
     {
         return $this->model->all();
+    }
+
+    /**
+     * Returns all the records.
+     *
+     * @param bool $paginate
+     * @return Collection|Paginator
+     */
+    public function get($paginate = false)
+    {
+        if (!$paginate) {
+            return $this->model->all();
+        }
+
+        return $this->paginate();
+    }
+
+    /**
+     * @param Builder $builder
+     * @return Paginator
+     */
+    public function paginate(Builder $builder = null) {
+        $builder = $builder ? $builder : $this->model;
+        return new Paginator(
+            $builder->offset(Pagination::offset() + Pagination::page() * Pagination::perPage())
+                ->limit(Pagination::perPage())
+                ->get(),
+            $builder->count()
+        );
     }
 
     /**
