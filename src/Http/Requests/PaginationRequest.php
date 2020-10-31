@@ -1,6 +1,6 @@
 <?php
 
-namespace OZiTAG\Tager\Backend\Core\Pagination;
+namespace OZiTAG\Tager\Backend\Core\Http\Requests;
 
 use OZiTAG\Tager\Backend\Core\Http\FormRequest;
 

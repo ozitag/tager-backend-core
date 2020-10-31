@@ -101,15 +101,20 @@ class EloquentRepository implements IEloquentRepository
      * Returns all the records.
      *
      * @param bool $paginate
+     * @param string|null $query
      * @return Collection|Paginator
      */
-    public function get($paginate = false)
+    public function get($paginate = false, ?string $query = null)
     {
+        $builder = $query && $this instanceof ISearchable
+            ? $this->searchByQuery($query)
+            : $this->model->query();
+
         if (!$paginate) {
-            return $this->model->all();
+            return $builder->get();
         }
 
-        return $this->paginate();
+        return $this->paginate($builder);
     }
 
     /**
