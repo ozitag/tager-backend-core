@@ -154,7 +154,7 @@ class EloquentRepository implements IEloquentRepository
         return new Paginator(
             $builder->offset(Pagination::offset() + Pagination::page() * Pagination::perPage())
                 ->limit(Pagination::perPage())
-                ->get()->toFlatTree(),
+                ->get(),
             $count
         );
     }
