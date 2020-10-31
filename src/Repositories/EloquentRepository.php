@@ -118,16 +118,44 @@ class EloquentRepository implements IEloquentRepository
     }
 
     /**
-     * @param Builder $builder
+     * @param bool $paginate
+     * @param string|null $query
      * @return Paginator
      */
-    public function paginate(Builder $builder = null) {
-        $builder = $builder ? $builder : $this->model;
+    public function toFlatTree($paginate = false, ?string $query = null)
+    {
+        $builder = $query && $this instanceof ISearchable ? $this->searchByQuery($query) : $this->model->query();
+
+        $builder = $builder->withDepth()->defaultOrder();
+
+        if (!$paginate) {
+            return $builder->get()->toFlatTree();
+        }
+
+        $count = $builder->count();
+
         return new Paginator(
             $builder->offset(Pagination::offset() + Pagination::page() * Pagination::perPage())
                 ->limit(Pagination::perPage())
-                ->get(),
-            $builder->count()
+                ->get()->toFlatTree(),
+            $count
+        );
+    }
+
+    /**
+     * @param Builder $builder
+     * @return Paginator
+     */
+    public function paginate(Builder $builder = null)
+    {
+        $builder = $builder ? $builder : $this->model;
+        $count = $builder->count();
+
+        return new Paginator(
+            $builder->offset(Pagination::offset() + Pagination::page() * Pagination::perPage())
+                ->limit(Pagination::perPage())
+                ->get()->toFlatTree(),
+            $count
         );
     }
 
