@@ -3,11 +3,11 @@
 namespace OZiTAG\Tager\Backend\Core\Pagination;
 
 use Illuminate\Contracts\Support\Arrayable;
+use Kalnoy\Nestedset\Collection;
 use OZiTAG\Tager\Backend\Core\Facades\Pagination;
 
-class Paginator extends \Kalnoy\Nestedset\Collection implements Arrayable
+class Paginator extends Collection implements Arrayable
 {
-    protected $items;
     protected int $total;
 
     /**
@@ -21,22 +21,19 @@ class Paginator extends \Kalnoy\Nestedset\Collection implements Arrayable
         parent::__construct($items);
     }
 
-    public function total() {
-        return $this->total;
-    }
-
-    public function perPage() {
-        return Pagination::perPage();
-    }
-
-    public function offset() {
-        return Pagination::offset();
-    }
-
     public function getMeta() {
+        $pageMeta = Pagination::isOffsetBased() ? [
+            'offset' => Pagination::offset(),
+            'limit' => Pagination::perPage(),
+        ] : [
+            'number' => Pagination::page() + 1,
+            'size' => Pagination::perPage(),
+            'count' => ceil($this->total / (Pagination::perPage() ?? 1)),
+        ];
+
         return [
-            'itemsCount' => $this->total - $this->offset(),
-            'pagesCount' => ceil(($this->total - $this->offset()) / $this->perPage()),
+            'page' => $pageMeta,
+            'total' => $this->total
         ];
     }
 
@@ -46,7 +43,7 @@ class Paginator extends \Kalnoy\Nestedset\Collection implements Arrayable
      *
      * @param bool $root
      *
-     * @return \Kalnoy\Nestedset\Collection
+     * @return Collection
      */
     public function toFlatTree($root = false)
     {
@@ -54,12 +51,7 @@ class Paginator extends \Kalnoy\Nestedset\Collection implements Arrayable
 
         if ($this->isEmpty()) return $result;
 
-        $this->offset(Pagination::offset() + Pagination::page() * Pagination::perPage())
-            ->limit(Pagination::perPage())
-            ->get();
-
         $groupedNodes = $this->groupBy($this->first()->getParentIdName());
-
 
         return $result->flattenTree($groupedNodes, $this->getRootNodeId($root));
     }

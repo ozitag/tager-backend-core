@@ -135,7 +135,11 @@ class EloquentRepository implements IEloquentRepository
         $count = $builder->count();
 
         return new Paginator(
-            $builder->offset(Pagination::offset() + Pagination::page() * Pagination::perPage())
+            $builder->offset(
+                    Pagination::isOffsetBased()
+                        ? Pagination::offset()
+                        : Pagination::page() * Pagination::perPage()
+                )
                 ->limit(Pagination::perPage())
                 ->get()->toFlatTree(),
             $count
@@ -152,7 +156,11 @@ class EloquentRepository implements IEloquentRepository
         $count = $builder->count();
 
         return new Paginator(
-            $builder->offset(Pagination::offset() + Pagination::page() * Pagination::perPage())
+            $builder->offset(
+                Pagination::isOffsetBased()
+                    ? Pagination::offset()
+                    : Pagination::page() * Pagination::perPage()
+                )
                 ->limit(Pagination::perPage())
                 ->get(),
             $count

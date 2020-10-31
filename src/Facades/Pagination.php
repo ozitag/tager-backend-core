@@ -9,9 +9,10 @@ use OZiTAG\Tager\Backend\Core\Helpers\PaginationHelper;
  * Class Paginator
  * @package OZiTAG\Tager\Backend\Core\Facades
  * @method static int page()
- * @method static int pageForClient()
  * @method static int perPage()
  * @method static int offset()
+ * @method static bool isOffsetBased()
+ * @method static bool isPageBased()
  */
 class Pagination extends Facade
 {

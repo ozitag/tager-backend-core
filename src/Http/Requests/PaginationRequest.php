@@ -12,9 +12,10 @@ class PaginationRequest extends FormRequest
     public function rules()
     {
         return [
-            'perPage' => 'integer|min:1|nullable',
-            'offset' => 'integer|min:0|nullable',
-            'page' => 'integer|min:0|nullable',
+            'pageOffset' => 'integer|min:0|required_with:pageLimit',
+            'pageLimit' => 'integer|min:1',
+            'pageNumber' => 'integer|min:1|required_with:pageSize',
+            'pageSize' => 'integer|min:1',
         ];
     }
 }
