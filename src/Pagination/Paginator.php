@@ -36,23 +36,4 @@ class Paginator extends Collection implements Arrayable
             'total' => $this->total
         ];
     }
-
-    /**
-     * Build a list of nodes that retain the order that they were pulled from
-     * the database.
-     *
-     * @param bool $root
-     *
-     * @return Collection
-     */
-    public function toFlatTree($root = false)
-    {
-        $result = $this;
-
-        if ($this->isEmpty()) return $result;
-
-        $groupedNodes = $this->groupBy($this->first()->getParentIdName());
-
-        return $result->flattenTree($groupedNodes, $this->getRootNodeId($root));
-    }
 }
