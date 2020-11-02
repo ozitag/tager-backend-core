@@ -2,9 +2,11 @@
 
 namespace OZiTAG\Tager\Backend\Core\Resources;
 
+use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Ozerich\FileStorage\Models\File;
+use OZiTAG\Tager\Backend\Core\Jobs\Job;
 use OZiTAG\Tager\Backend\Utils\Helpers\ArrayHelper;
 
 abstract class ModelResource extends JsonResource
@@ -169,6 +171,13 @@ abstract class ModelResource extends JsonResource
             return call_user_func($field, $model);
         }
 
+        if (class_exists($field)) {
+            if (is_subclass_of($field, Job::class) == false) {
+                throw new \Exception($field . ' is not Job');
+            }
+            return app(Dispatcher::class)->dispatch(new $field($model));
+        }
+
         $fieldParams = is_array($field) ? $field : explode(':', $field);
         $attribute = array_shift($fieldParams);
         if (mb_strpos($attribute, '.') !== false) {
@@ -227,6 +236,6 @@ abstract class ModelResource extends JsonResource
 
     public function toArray($request)
     {
-        return $this->parseArray($this->fields(), $this);
+        return $this->parseArray($this->fields(), $this->resource);
     }
 }
