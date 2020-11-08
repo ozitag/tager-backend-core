@@ -39,11 +39,15 @@ class CoreServiceProvider extends RouteServiceProvider
             Route::prefix('')->group(base_path('routes/public.php'));
         }
 
+        if (is_file(base_path('routes/web.php'))) {
+            Route::prefix('')->group(base_path('routes/web.php'));
+        }
+
         $this->publishes([
             __DIR__ . '/../config/config.php' => config_path('tager-core.php'),
         ]);
 
-        \Illuminate\Support\Facades\Validator::resolver(function($translator, $data, $rules, $messages, $customAttributes) {
+        \Illuminate\Support\Facades\Validator::resolver(function ($translator, $data, $rules, $messages, $customAttributes) {
             return new Validator($translator, $data, $rules, $messages, $customAttributes);
         });
 
