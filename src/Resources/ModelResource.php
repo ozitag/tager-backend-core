@@ -172,10 +172,16 @@ abstract class ModelResource extends JsonResource
         }
 
         if (class_exists($field)) {
-            if (is_subclass_of($field, Job::class) == false) {
-                throw new \Exception($field . ' is not Job');
+
+            if (is_subclass_of($field, Job::class)) {
+                return app(Dispatcher::class)->dispatch(new $field($model));
             }
-            return app(Dispatcher::class)->dispatch(new $field($model));
+
+            if (is_subclass_of($field, JsonResource::class)) {
+                return new $field($model);
+            }
+
+            throw new \Exception($field . ' is not the Job and is not the Resource');
         }
 
         $fieldParams = is_array($field) ? $field : explode(':', $field);
