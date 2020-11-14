@@ -171,7 +171,7 @@ abstract class ModelResource extends JsonResource
             return call_user_func($field, $model);
         }
 
-        if (class_exists($field)) {
+        if (mb_strpos("\\", $field) !== false && class_exists($field)) {
 
             if (is_subclass_of($field, Job::class)) {
                 return app(Dispatcher::class)->dispatch(new $field($model));
