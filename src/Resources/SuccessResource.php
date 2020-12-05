@@ -7,6 +7,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class SuccessResource extends JsonResource
 {
+    public function __construct($resource = null)
+    {
+        parent::__construct($resource);
+    }
+
+
     /**
      * Transform the resource into an array.
      *
