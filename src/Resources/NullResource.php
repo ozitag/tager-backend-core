@@ -16,7 +16,7 @@ class SuccessResource extends JsonResource
     public function toResponse($request)
     {
         return [
-            'success' => true
+            'data' => null
         ];
     }
 }
