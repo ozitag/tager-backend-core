@@ -19,7 +19,8 @@
     "doctrine/dbal": "^2.11",
     "bensampo/laravel-enum": "^3.0",
     "kalnoy/nestedset": "^5.0",
-    "ozitag/tager-backend-http-cache": "^1.0"
+    "ozitag/tager-backend-http-cache": "^1.0",
+    "predis/predis": "^1.1"
   },
   "autoload": {
     "psr-4": {
