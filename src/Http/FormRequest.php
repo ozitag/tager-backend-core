@@ -3,7 +3,7 @@
 namespace OZiTAG\Tager\Backend\Core\Http;
 
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Validation\ValidationException;
+use OZiTAG\Tager\Backend\Validation\Exceptions\ValidationException;
 
 class FormRequest extends \Illuminate\Foundation\Http\FormRequest
 {
@@ -17,8 +17,6 @@ class FormRequest extends \Illuminate\Foundation\Http\FormRequest
      */
     protected function failedValidation(Validator $validator)
     {
-        throw (new ValidationException($validator))
-            ->errorBag($this->errorBag)
-            ->status(400);
+        throw (new ValidationException($validator));
     }
 }

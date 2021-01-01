@@ -2,14 +2,14 @@
 
 namespace OZiTAG\Tager\Backend\Core\Traits;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use OZiTAG\Tager\Backend\Core\Events\JobStarted;
 use OZiTAG\Tager\Backend\Core\Events\OperationStarted;
 
 trait JobDispatcherTrait
 {
-    use ExceptionHandler;
+    use ExceptionHandler, DispatchesJobs;
+
     /**
      * @param string $job
      * @param array $arguments
@@ -20,34 +20,16 @@ trait JobDispatcherTrait
     }
 
     /**
-     * beautifier function to be called instead of the
-     * laravel function dispatchFromArray.
-     * When the $arguments is an instance of Request
-     * it will call dispatchFrom instead.
-     *
-     * @param string                         $job
-     * @param array|Request $arguments
-     * @param array                          $extra
-     *
+     * @param $job
+     * @param array $arguments
      * @return mixed
      */
-    public function run($job, $arguments = [], $extra = [])
+    public function run($job, array $arguments = [])
     {
-        if ($arguments instanceof Request) {
-            $result = $this->dispatch($this->marshal($job, $arguments, $extra));
-        } else {
-            if (!is_object($job)) {
-                $job = $this->marshal($job, new Collection(), $arguments);
-            }
-            if ($job instanceof Operation) {
-                event(new OperationStarted(get_class($job), $arguments));
-            }
-            if ($job instanceof Job) {
-                event(new JobStarted(get_class($job), $arguments));
-            }
-            $result = $this->dispatch($job, $arguments);
+        if (is_object($job)) {
+            return $this->dispatchNow($job);
         }
-        return $result;
+        return $this->dispatchNow( new $job(...$arguments) );
     }
 
     /**

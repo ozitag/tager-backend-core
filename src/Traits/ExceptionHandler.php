@@ -17,7 +17,7 @@ trait ExceptionHandler
         try {
             return $callback();
         } catch (\Exception $exception) {
-            $this->logException($exception, $logLevel)
+            return $this->logException($exception, $logLevel)
                 ->resolveException($exception);
         }
     }

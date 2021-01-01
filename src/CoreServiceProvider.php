@@ -7,7 +7,7 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use OZiTAG\Tager\Backend\Core\Routing\ApiResource;
 use OZiTAG\Tager\Backend\Core\Routing\ResourceRegistrar;
-use OZiTAG\Tager\Backend\Core\Validation\Validator;
+use OZiTAG\Tager\Backend\Validation\ValidationServiceProvider;
 
 class CoreServiceProvider extends RouteServiceProvider
 {
@@ -22,6 +22,7 @@ class CoreServiceProvider extends RouteServiceProvider
         $this->app->bind(\Illuminate\Routing\ResourceRegistrar::class, function () {
             return new ResourceRegistrar(app()->make(Router::class));
         });
+        $this->app->register(ValidationServiceProvider::class);
     }
 
     /**
@@ -46,10 +47,6 @@ class CoreServiceProvider extends RouteServiceProvider
         $this->publishes([
             __DIR__ . '/../config/config.php' => config_path('tager-core.php'),
         ]);
-
-        \Illuminate\Support\Facades\Validator::resolver(function ($translator, $data, $rules, $messages, $customAttributes) {
-            return new Validator($translator, $data, $rules, $messages, $customAttributes);
-        });
 
         parent::boot();
     }

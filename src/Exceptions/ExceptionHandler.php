@@ -4,6 +4,7 @@ namespace OZiTAG\Tager\Backend\Core\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as BaseExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use OZiTAG\Tager\Backend\Validation\Exceptions\LiteValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -20,7 +21,8 @@ class ExceptionHandler extends BaseExceptionHandler
         \Illuminate\Validation\UnauthorizedException::class,
         \Symfony\Component\HttpKernel\Exception\HttpException::class,
         \Illuminate\Database\Eloquent\ModelNotFoundException::class,
-        \Illuminate\Validation\ValidationException::class
+        \Illuminate\Validation\ValidationException::class,
+        LiteValidationException::class,
     ];
 
     /**
@@ -62,10 +64,11 @@ class ExceptionHandler extends BaseExceptionHandler
     {
         if ($exception instanceof NotFoundHttpException && $request->wantsJson()) {
             return response(['message' => 'Not Found.'], 404);
+        } elseif ($exception instanceof LiteValidationException) {
+            return $exception->getResponse();
         }
         return parent::render($request, $exception);
     }
-
 
     /**
      * Create a response object from the given validation exception.
