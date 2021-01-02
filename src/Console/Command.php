@@ -9,13 +9,13 @@ use OZiTAG\Tager\Backend\Core\Events\JobStarted;
 use OZiTAG\Tager\Backend\Core\Events\OperationStarted;
 use OZiTAG\Tager\Backend\Core\Jobs\Job;
 use OZiTAG\Tager\Backend\Core\Jobs\Operation;
+use OZiTAG\Tager\Backend\Core\Traits\ExceptionHandler;
 use OZiTAG\Tager\Backend\Core\Traits\MarshalTrait;
 use OZiTAG\Tager\Backend\Utils\Helpers\DateHelper;
 
 abstract class Command extends BaseCommand
 {
     use DispatchesJobs;
-    use MarshalTrait;
 
     /** @var string */
     protected $log;
@@ -45,19 +45,10 @@ abstract class Command extends BaseCommand
      */
     public function runJob($job, $arguments = [])
     {
-        if (!is_object($job)) {
-            $job = $this->marshal($job, new Collection(), $arguments);
+        if (is_object($job)) {
+            return $this->dispatchNow($job);
         }
-
-        if ($job instanceof Operation) {
-            event(new OperationStarted(get_class($job), $arguments));
-        }
-
-        if ($job instanceof Job) {
-            event(new JobStarted(get_class($job), $arguments));
-        }
-
-        return $this->dispatch($job, $arguments);
+        return $this->dispatchNow( new $job(...$arguments) );
     }
 
     /**
