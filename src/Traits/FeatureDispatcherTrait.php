@@ -36,7 +36,7 @@ trait FeatureDispatcherTrait
 
         $featureName = array_shift($feature);
 
-        $reflection = new ReflectionClass($featureName);
+        $reflection = new \ReflectionClass($featureName);
         $constructorParams = $reflection->getConstructor()->getParameters();
 
         $featureParams = $arguments;

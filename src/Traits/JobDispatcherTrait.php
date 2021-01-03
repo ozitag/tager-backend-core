@@ -45,7 +45,7 @@ trait JobDispatcherTrait
     public function runInQueue($job, array $arguments = [], $queue = 'default')
     {
         // instantiate and queue the job
-        $reflection = new ReflectionClass($job);
+        $reflection = new \ReflectionClass($job);
         $jobInstance = $reflection->newInstanceArgs($arguments);
         $jobInstance->onQueue((string) $queue);
         return $this->dispatch($jobInstance);
