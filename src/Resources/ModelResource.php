@@ -32,7 +32,7 @@ abstract class ModelResource extends JsonResource
             case 'url':
                 return $value->getUrl($thumbnail);
             case 'model':
-                return $value->getShortJson();
+                return $value->getShortJson($thumbnail);
             case 'json':
                 return $thumbnail ? $value->getThumbnailJson($thumbnail, $scenario) : $value->getFullJson($scenario);
             default:
