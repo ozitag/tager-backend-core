@@ -2,6 +2,7 @@
 
 namespace OZiTAG\Tager\Backend\Core\Http;
 
+use OZiTAG\Tager\Backend\Core\Middlewares\DefaultHeadersMiddleware;
 use OZiTAG\Tager\Backend\Core\Middlewares\LocalizationMiddleware;
 
 class Kernel extends \Illuminate\Foundation\Http\Kernel
@@ -17,6 +18,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         LocalizationMiddleware::class,
+        DefaultHeadersMiddleware::class,
     ];
 
     /**

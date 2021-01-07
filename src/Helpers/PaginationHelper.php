@@ -3,25 +3,20 @@
 namespace OZiTAG\Tager\Backend\Core\Helpers;
 
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
 
 class PaginationHelper
 {
-    const MAX_LIMIT = 1001;
-
     public function page(): int
     {
         if ($this->isOffsetBased()) {
             return 0;
         }
 
-        if ($this->perPage() === self::MAX_LIMIT) {
-            return 0;
-        }
-
         $current = (int) Request::get('pageNumber', 0);
 
-        if ($current === 0 || $current < 0) {
+        if ($current < 1) {
             return 0;
         }
 
@@ -30,7 +25,13 @@ class PaginationHelper
 
     public function perPage(): int
     {
-        return (int) Request::get($this->isOffsetBased() ? 'pageLimit' : 'pageSize', self::MAX_LIMIT);
+        $per_page = (int) Request::get($this->isOffsetBased() ? 'pageLimit' : 'pageSize', $this->defaultPageSize());
+
+        if ($per_page > $this->maxPageSize()) {
+            return $this->defaultPageSize();
+        }
+
+        return $per_page;
     }
 
     public function offset(): int
@@ -44,5 +45,13 @@ class PaginationHelper
 
     public function isPageBased(): bool {
         return Request::get('pageNumber', null) !== null;
+    }
+
+    public function defaultPageSize() {
+        return (int) Config::get('tager-app.pagination.default_page_size');
+    }
+
+    public function maxPageSize() {
+        return (int) Config::get('tager-app.pagination.max_page_size');
     }
 }

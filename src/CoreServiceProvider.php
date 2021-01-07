@@ -44,9 +44,7 @@ class CoreServiceProvider extends RouteServiceProvider
             Route::prefix('')->group(base_path('routes/web.php'));
         }
 
-        $this->publishes([
-            __DIR__ . '/../config/config.php' => config_path('tager-core.php'),
-        ]);
+        $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'tager-app');
 
         parent::boot();
     }
