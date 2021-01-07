@@ -25,14 +25,14 @@ abstract class ModelResource extends JsonResource
         }
 
         $type = $params[0] ?? 'url';
-        $scenario = $params[1] ?? null;
-        $thumbnail = $params[2] ?? null;
+        $thumbnail = $params[1] ?? null;
+        $scenario = $params[2] ?? null;
 
         switch ($type) {
             case 'url':
-                return $value->getUrl($thumbnail, $scenario);
+                return $value->getUrl($thumbnail, true);
             case 'model':
-                return $value->getShortJson();
+                return $value->getShortJson($thumbnail);
             case 'json':
                 return $thumbnail ? $value->getThumbnailJson($thumbnail, $scenario) : $value->getFullJson($scenario);
             default:
