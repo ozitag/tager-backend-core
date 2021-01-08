@@ -5,6 +5,7 @@ namespace OZiTAG\Tager\Backend\Core\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use OZiTAG\Tager\Backend\Core\Facades\Pagination;
 use OZiTAG\Tager\Backend\Core\Pagination\Paginator;
 
@@ -103,17 +104,20 @@ class EloquentRepository implements IEloquentRepository
     }
 
     /**
-     * Returns all the records.
-     *
-     * @param bool $paginate
+     * @param false $paginate
      * @param string|null $query
-     * @return Collection|Paginator
+     * @param array|null $filter
+     * @return Builder[]|Collection|Model[]|null[]|Paginator
      */
-    public function get($paginate = false, ?string $query = null)
+    public function get($paginate = false, ?string $query = null, ?array $filter = [])
     {
         $builder = $query && $this instanceof ISearchable
             ? $this->searchByQuery($query)
             : $this->model->query();
+
+        $builder = $filter && $this instanceof IFilterable
+            ? $this->filter($filter, $builder)
+            : $builder;
 
         if (!$paginate) {
             return $builder->get();
@@ -123,13 +127,18 @@ class EloquentRepository implements IEloquentRepository
     }
 
     /**
-     * @param bool $paginate
+     * @param false $paginate
      * @param string|null $query
+     * @param array|null $filter
      * @return Paginator
      */
-    public function toFlatTree($paginate = false, ?string $query = null)
+    public function toFlatTree($paginate = false, ?string $query = null, ?array $filter = [])
     {
         $builder = $query && $this instanceof ISearchable ? $this->searchByQuery($query) : $this->model->query();
+
+        $builder = $filter && $this instanceof IFilterable
+            ? $this->filter($filter, $builder)
+            : $builder;
 
         $builder = $builder->withDepth()->defaultOrder();
 
@@ -170,6 +179,22 @@ class EloquentRepository implements IEloquentRepository
                 ->get(),
             $count
         );
+    }
+
+    public function filter(?array $filter = [], Builder $builder = null): ?Builder
+    {
+        $builder = $builder ?? $this->model;
+        foreach ($filter as $key => $value) {
+            if ($this->model->isFillable((string) $key)) {
+                $this->filterByKey($builder, (string)  $key, $value);
+            }
+        }
+        return $builder;
+    }
+
+    public function filterByKey(Builder $builder, string $key, mixed $value) {
+        $method = 'where' . Str::ucfirst($key);
+        return $builder->$method($value);
     }
 
     /**

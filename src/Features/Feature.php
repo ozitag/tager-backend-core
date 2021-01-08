@@ -3,6 +3,7 @@
 namespace OZiTAG\Tager\Backend\Core\Features;
 
 use Illuminate\Support\Facades\App;
+use OZiTAG\Tager\Backend\Core\Http\Requests\FilterRequest;
 use OZiTAG\Tager\Backend\Core\Http\Requests\PaginationRequest;
 use OZiTAG\Tager\Backend\Core\Http\Requests\QueryRequest;
 use OZiTAG\Tager\Backend\Core\Traits\JobDispatcherTrait;
@@ -16,11 +17,20 @@ class Feature
         App::make($request);
     }
 
-    public function registerPaginationRequest() {
+    public function registerPaginationRequest(): self
+    {
         $this->registerRequest(PaginationRequest::class);
+        return $this;
     }
 
-    public function registerQueryRequest() {
+    public function registerQueryRequest(): self
+    {
         $this->registerRequest(QueryRequest::class);
+        return $this;
+    }
+
+    public function registerFilterRequest(): self {
+        $this->registerRequest(FilterRequest::class);
+        return $this;
     }
 }
