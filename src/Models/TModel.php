@@ -11,19 +11,11 @@ class TModel extends BaseModel
 {
     use FilterableAttributes;
 
-    static $hasUUID = false;
-
     static $defaultOrder = null;
 
     protected static function boot()
     {
         parent::boot();
-
-        if (static::$hasUUID) {
-            static::creating(function ($model) {
-                $model->uuid = (string)Str::uuid();
-            });
-        }
 
         if (static::$defaultOrder) {
             $defaultOrderParts = explode(' ', static::$defaultOrder);
