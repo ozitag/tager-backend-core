@@ -39,7 +39,7 @@ class ExceptionHandler extends BaseExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Throwable  $exception
+     * @param \Throwable $exception
      * @return void
      *
      * @throws \Exception
@@ -55,8 +55,8 @@ class ExceptionHandler extends BaseExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $exception
+     * @param \Illuminate\Http\Request $request
+     * @param \Throwable $exception
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \Throwable
@@ -64,7 +64,7 @@ class ExceptionHandler extends BaseExceptionHandler
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof NotFoundHttpException && $request->wantsJson()) {
-            return response(['message' => 'Not Found.'], 404);
+            return response(['message' => $exception->getMessage() ?? 'Not Found'], 404);
         } elseif ($exception instanceof LiteValidationException) {
             return $exception->getResponse();
         }
@@ -74,8 +74,8 @@ class ExceptionHandler extends BaseExceptionHandler
     /**
      * Create a response object from the given validation exception.
      *
-     * @param  \Illuminate\Validation\ValidationException  $e
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Validation\ValidationException $e
+     * @param \Illuminate\Http\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function convertValidationExceptionToResponse(ValidationException $e, $request)
