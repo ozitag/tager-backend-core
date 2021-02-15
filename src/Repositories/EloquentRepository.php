@@ -50,6 +50,7 @@ class EloquentRepository implements IEloquentRepository
     public function reset()
     {
         $this->createModelInstance();
+        return $this;
     }
 
     /**
@@ -62,7 +63,7 @@ class EloquentRepository implements IEloquentRepository
         return $this->model->create($attributes);
     }
 
-    public function set(Model $model)
+    public function set(Model $model): Model
     {
         $this->model = $model;
         return $this->model;
