@@ -13,10 +13,10 @@ class Enum extends \BenSampo\Enum\Enum
     {
         $data = [];
 
-        foreach (self::getValues() as $value) {
+        foreach (static::getValues() as $value) {
             $data[] = [
                 'name' => $value,
-                'label' => self::label($value)
+                'label' => static::label($value)
             ];
         }
 
