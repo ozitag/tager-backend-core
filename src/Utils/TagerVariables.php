@@ -1,6 +1,6 @@
 <?php
 
-namespace OZiTAG\Tager\Backend\Core;
+namespace OZiTAG\Tager\Backend\Core\Utils;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\App;
