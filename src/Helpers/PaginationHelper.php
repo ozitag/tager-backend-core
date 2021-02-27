@@ -2,7 +2,6 @@
 
 namespace OZiTAG\Tager\Backend\Core\Helpers;
 
-
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
 
@@ -28,7 +27,7 @@ class PaginationHelper
         $per_page = (int)Request::get($this->isOffsetBased() ? 'pageLimit' : 'pageSize', $this->defaultPageSize());
 
         if ($per_page > $this->maxPageSize()) {
-            return $this->defaultPageSize();
+            return $this->maxPageSize();
         }
 
         return $per_page;
@@ -51,12 +50,13 @@ class PaginationHelper
 
     public function defaultPageSize(): int
     {
-        return (int)Config::get('tager-app.pagination.default_page_size');
+        return (int)Config::get('tager-app.pagination.default_page_size', 100);
     }
 
     public function maxPageSize(): int
     {
-        $result = (int)Config::get('tager-app.pagination.max_page_size');
+        $result = (int)Config::get('tager-app.pagination.max_page_size', -1);
+
         if ($result == -1) {
             return PHP_INT_MAX;
         } else {

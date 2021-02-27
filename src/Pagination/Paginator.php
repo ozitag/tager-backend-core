@@ -21,14 +21,17 @@ class Paginator extends Collection implements Arrayable
         parent::__construct($items);
     }
 
-    public function getMeta() {
+    public function getMeta()
+    {
+        $perPage = Pagination::perPage();
+
         $pageMeta = Pagination::isOffsetBased() ? [
             'offset' => Pagination::offset(),
             'limit' => Pagination::perPage(),
         ] : [
             'number' => Pagination::page() + 1,
             'size' => Pagination::perPage(),
-            'count' => ceil($this->total / (Pagination::perPage() ?? 1)),
+            'count' => ceil($this->total / ($perPage > 0 ? $perPage : 1)),
         ];
 
         return [
