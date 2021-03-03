@@ -151,10 +151,10 @@ class EloquentRepository implements IEloquentRepository
 
         return new Paginator(
             $builder->offset(
-                    Pagination::isOffsetBased()
-                        ? Pagination::offset()
-                        : Pagination::page() * Pagination::perPage()
-                )
+                Pagination::isOffsetBased()
+                    ? Pagination::offset()
+                    : Pagination::page() * Pagination::perPage()
+            )
                 ->limit(Pagination::perPage())
                 ->get()->toFlatTree(),
             $count
@@ -175,7 +175,7 @@ class EloquentRepository implements IEloquentRepository
                 Pagination::isOffsetBased()
                     ? Pagination::offset()
                     : Pagination::page() * Pagination::perPage()
-                )
+            )
                 ->limit(Pagination::perPage())
                 ->get(),
             $count
@@ -186,14 +186,17 @@ class EloquentRepository implements IEloquentRepository
     {
         $builder = $builder ?? $this->model;
         foreach ($filter as $key => $value) {
-            if ($this->model->isFillable((string) $key)) {
-                $this->filterByKey($builder, (string)  $key, $value);
-            }
+            $this->filterByKey($builder, (string)$key, $value);
         }
         return $builder;
     }
 
-    public function filterByKey(Builder $builder, string $key, mixed $value) {
+    public function filterByKey(Builder $builder, string $key, mixed $value): Builder
+    {
+        if (!$this->model->isFillable($key)) {
+            return $builder;
+        }
+
         $method = 'where' . Str::ucfirst($key);
         return $builder->$method($value);
     }
