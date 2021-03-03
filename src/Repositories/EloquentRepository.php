@@ -186,7 +186,9 @@ class EloquentRepository implements IEloquentRepository
     {
         $builder = $builder ?? $this->model;
         foreach ($filter as $key => $value) {
-            $builder = $this->filterByKey($builder, (string)$key, $value);
+            if(!empty($value)) {
+                $builder = $this->filterByKey($builder, (string)$key, $value);
+            }
         }
         return $builder;
     }
