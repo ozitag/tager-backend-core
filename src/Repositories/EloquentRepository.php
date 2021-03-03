@@ -186,19 +186,14 @@ class EloquentRepository implements IEloquentRepository
     {
         $builder = $builder ?? $this->model;
         foreach ($filter as $key => $value) {
-            $this->filterByKey($builder, (string)$key, $value);
+            $builder = $this->filterByKey($builder, (string)$key, $value);
         }
         return $builder;
     }
 
     public function filterByKey(Builder $builder, string $key, mixed $value): Builder
     {
-        if (!$this->model->isFillable($key)) {
-            return $builder;
-        }
-
-        $method = 'where' . Str::ucfirst($key);
-        return $builder->$method($value);
+        return $builder;
     }
 
     /**
