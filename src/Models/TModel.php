@@ -4,14 +4,10 @@ namespace OZiTAG\Tager\Backend\Core\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model as BaseModel;
-use Illuminate\Support\Str;
 use OZiTAG\Tager\Backend\Core\Models\Observers\UUIDModelObserver;
-use OZiTAG\Tager\Backend\Core\Models\Traits\FilterableAttributes;
 
 class TModel extends BaseModel
 {
-    use FilterableAttributes;
-
     static $defaultOrder = null;
 
     static $hasUUID = false;
