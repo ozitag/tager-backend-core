@@ -182,11 +182,15 @@ class EloquentRepository implements IEloquentRepository
         );
     }
 
-    public function filter(?array $filter = [], Builder $builder = null): ?Builder
+    public function filter(?array $filter = [], ?Builder $builder = null): ?Builder
     {
         $builder = $builder ?? $this->model;
+        if (!$filter || empty($filter)) {
+            return $builder;
+        }
+
         foreach ($filter as $key => $value) {
-            if(!empty($value)) {
+            if (!empty($value)) {
                 $builder = $this->filterByKey($builder, (string)$key, $value);
             }
         }
