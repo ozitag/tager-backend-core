@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use OZiTAG\Tager\Backend\Core\Facades\Pagination;
 use OZiTAG\Tager\Backend\Core\Pagination\Paginator;
+use OZiTAG\Tager\Backend\Core\Structures\SortAttributeCollection;
 
 class EloquentRepository implements IEloquentRepository
 {
@@ -108,9 +109,10 @@ class EloquentRepository implements IEloquentRepository
      * @param false $paginate
      * @param string|null $query
      * @param array|null $filter
+     * @param SortAttributeCollection|null $sortAttributes
      * @return Builder[]|Collection|Model[]|null[]|Paginator
      */
-    public function get($paginate = false, ?string $query = null, ?array $filter = [])
+    public function get($paginate = false, ?string $query = null, ?array $filter = [], ?SortAttributeCollection $sortAttributes = null)
     {
         $builder = $query && $this instanceof ISearchable
             ? $this->searchByQuery($query)
@@ -118,6 +120,10 @@ class EloquentRepository implements IEloquentRepository
 
         $builder = $filter && $this instanceof IFilterable
             ? $this->filter($filter, $builder)
+            : $builder;
+
+        $builder = $sortAttributes && $this instanceof ISortable
+            ? $this->sort($sortAttributes, $builder)
             : $builder;
 
         if (!$paginate) {
