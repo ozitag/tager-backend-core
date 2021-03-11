@@ -12,27 +12,24 @@ class SortAttributeCollection
 
     public static function loadFromRequest(Request $request): ?static
     {
-        $data = $request->get('sort_by');
+        $data = $request->get('sort');
         if (empty($data)) {
             return null;
         }
 
+        if (!is_array($data)) {
+            $data = [$data];
+        }
+
         $result = new static();
 
-        $attributes = explode(',', $data);
-
-        foreach ($attributes as $attribute) {
-            $firstSymbol = substr($attribute, 0, 1);
-
-            if ($firstSymbol == '+' || $firstSymbol == '-') {
-                $direction = $firstSymbol == '+' ? SortDirection::ASC : SortDirection::DESC;
-                $attribute = substr($attribute, 1);
-            } else {
-                $direction = SortDirection::ASC;
-                $attribute = $attribute;
+        foreach ($data as $attribute) {
+            $parts = explode(',', $attribute);
+            if (count($parts) !== 2 || !in_array(strtolower($parts[1]), SortDirection::getValues())) {
+                continue;
             }
 
-            $result->add($attribute, $direction);
+            $result->add($parts[0], $parts[1]);
         }
 
         return $result;
