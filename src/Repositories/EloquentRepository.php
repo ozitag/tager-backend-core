@@ -196,10 +196,11 @@ class EloquentRepository implements IEloquentRepository
         }
 
         foreach ($filter as $key => $value) {
-            if (!empty($value)) {
+            if (is_string($value) && strlen($value) > 0) {
                 $builder = $this->filterByKey($builder, (string)$key, $value);
             }
         }
+
         return $builder;
     }
 
