@@ -4,7 +4,7 @@ namespace OZiTAG\Tager\Backend\Core\Enums;
 
 class Enum extends \BenSampo\Enum\Enum
 {
-    public static function label(string $value): string
+    public static function label(?string $value): string
     {
         return 'Unknown';
     }
