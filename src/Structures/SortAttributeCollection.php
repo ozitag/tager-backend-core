@@ -25,11 +25,11 @@ class SortAttributeCollection
 
         foreach ($data as $attribute) {
             $parts = explode(',', $attribute);
-            if (count($parts) !== 2 || !in_array(strtolower($parts[1]), SortDirection::getValues())) {
+            if (count($parts) > 1 && !in_array(strtolower($parts[1]), SortDirection::getValues())) {
                 continue;
             }
 
-            $result->add($parts[0], $parts[1]);
+            $result->add($parts[0], $parts[1] ?? SortDirection::ASC);
         }
 
         return $result;
