@@ -22,4 +22,15 @@ class Enum extends \BenSampo\Enum\Enum
 
         return $data;
     }
+
+    public static function hasLabel(string $label): bool
+    {
+        foreach (static::getValues() as $value) {
+            if (static::label($value) == $label) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
