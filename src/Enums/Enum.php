@@ -6,7 +6,7 @@ class Enum extends \BenSampo\Enum\Enum
 {
     public static function label(?string $value): string
     {
-        return 'Unknown';
+        return self::hasKey($value) ? $value : 'Unknown';
     }
 
     public static function labelList(): array
