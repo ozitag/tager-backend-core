@@ -153,7 +153,7 @@ class EloquentRepository implements IEloquentRepository
             return $builder->get()->toFlatTree();
         }
 
-        $count = $builder->count();
+        $count = (clone $builder)->get()->count();
 
         return new Paginator(
             $builder->offset(
@@ -174,7 +174,7 @@ class EloquentRepository implements IEloquentRepository
     public function paginate(Builder $builder = null)
     {
         $builder = $builder ? $builder : $this->model;
-        $count = $builder->count();
+        $count = (clone $builder)->get()->count();
 
         return new Paginator(
             $builder->offset(
