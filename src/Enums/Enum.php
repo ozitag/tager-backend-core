@@ -33,4 +33,15 @@ class Enum extends \BenSampo\Enum\Enum
 
         return false;
     }
+
+    public static function fromLabel(string $label): ?string
+    {
+        foreach (static::getValues() as $value) {
+            if (static::label($value) == $label) {
+                return $value;
+            }
+        }
+
+        return null;
+    }
 }
