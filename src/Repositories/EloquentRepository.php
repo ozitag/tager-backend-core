@@ -48,7 +48,7 @@ class EloquentRepository implements IEloquentRepository
         return $this->model;
     }
 
-    public function reset()
+    public function reset(): static
     {
         $this->createModelInstance();
         return $this;
@@ -64,16 +64,22 @@ class EloquentRepository implements IEloquentRepository
         return $this->model->create($attributes);
     }
 
-    public function set(Model $model): Model
+    public function set(Model $model): static
     {
         $this->model = $model;
-        return $this->model;
+
+        return $this;
     }
 
-    public function setById($id)
+    public function setById(int $id): static
     {
         $this->model = $this->find($id);
-        return $this->model;
+
+        if (!$this->model) {
+            throw new \Exception('Model with id ' . $id . ' not found');
+        }
+
+        return $this->set($this->model);
     }
 
     /**
