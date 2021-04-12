@@ -12,16 +12,16 @@ class SortAttributeCollection
 
     public static function loadFromRequest(Request $request): ?static
     {
+        $result = new static();
+
         $data = $request->get('sort');
         if (empty($data)) {
-            return null;
+            return $result;
         }
 
         if (!is_array($data)) {
             $data = [$data];
         }
-
-        $result = new static();
 
         foreach ($data as $attribute) {
             $parts = explode(',', $attribute);
