@@ -10,7 +10,7 @@ class SortAttributeCollection
     /** @var SortAttribute[] */
     private array $attributes = [];
 
-    public static function loadFromRequest(Request $request): ?static
+    public static function loadFromRequest(Request $request): static
     {
         $result = new static();
 
