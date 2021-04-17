@@ -21,7 +21,7 @@
     "kalnoy/nestedset": "^5.0",
     "ozitag/tager-backend-http-cache": "^1.0",
     "ozitag/tager-backend-validation": "^1.0",
-    "ozerich/laravel-filestorage-db": "^0.4",
+    "ozerich/laravel-filestorage-db": "^0.5",
     "predis/predis": "^1.1",
     "league/flysystem-sftp": "^1"
   },
