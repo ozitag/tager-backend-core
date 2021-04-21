@@ -2,52 +2,49 @@
 
 namespace OZiTAG\Tager\Backend\Core\Traits;
 
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use OZiTAG\Tager\Backend\Core\Events\JobStarted;
-use OZiTAG\Tager\Backend\Core\Events\OperationStarted;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 trait JobDispatcherTrait
 {
     use ExceptionHandler, DispatchesJobs;
 
-    /**
-     * @param string $job
-     * @param array $arguments
-     * @return mixed
-     */
-    protected function runWithHandler(string $job, array $arguments = []) {
-        return $this->withExceptionHandler(fn () => $this->run($job, $arguments));
+    protected function runWithHandler(string $job, array $arguments = [])
+    {
+        return $this->withExceptionHandler(fn() => $this->run($job, $arguments));
     }
 
-    /**
-     * @param $job
-     * @param array $arguments
-     * @return mixed
-     */
-    public function run($job, array $arguments = [])
+    public function run($job, $arguments = [], $extra = [])
+    {
+        if ($arguments instanceof Request) {
+            $method = $job instanceof ShouldQueue ? 'dispatch' : 'dispatchNow';
+            $result = $this->$method($this->marshal($job, $arguments, $extra));
+        } else {
+            if (!is_object($job)) {
+                $job = $this->marshal($job, new Collection(), $arguments);
+            }
+            $method = $job instanceof ShouldQueue ? 'dispatch' : 'dispatchNow';
+            $result = $this->$method($job, $arguments);
+        }
+        return $result;
+    }
+
+    public function runNow($job, array $arguments = [])
     {
         if (is_object($job)) {
             return $this->dispatchNow($job);
         }
-        return $this->dispatchNow( new $job(...$arguments) );
+
+        return $this->dispatchNow(new $job(...$arguments));
     }
 
-    /**
-     * Run the given job in the given queue.
-     *
-     * @param string $job
-     * @param array $arguments
-     * @param string $queue
-     *
-     * @return mixed
-     * @throws \ReflectionException
-     */
     public function runInQueue($job, array $arguments = [], $queue = 'default')
     {
-        // instantiate and queue the job
         $reflection = new \ReflectionClass($job);
         $jobInstance = $reflection->newInstanceArgs($arguments);
-        $jobInstance->onQueue((string) $queue);
+        $jobInstance->onQueue((string)$queue);
         return $this->dispatch($jobInstance);
     }
 }
