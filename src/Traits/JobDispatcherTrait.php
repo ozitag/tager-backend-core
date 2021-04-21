@@ -16,19 +16,15 @@ trait JobDispatcherTrait
         return $this->withExceptionHandler(fn() => $this->run($job, $arguments));
     }
 
-    public function run($job, $arguments = [], $extra = [])
+    public function run($job, $arguments = [])
     {
-        if ($arguments instanceof Request) {
-            $method = $job instanceof ShouldQueue ? 'dispatch' : 'dispatchNow';
-            $result = $this->$method($this->marshal($job, $arguments, $extra));
-        } else {
-            if (!is_object($job)) {
-                $job = $this->marshal($job, new Collection(), $arguments);
-            }
-            $method = $job instanceof ShouldQueue ? 'dispatch' : 'dispatchNow';
-            $result = $this->$method($job, $arguments);
+        $method = $job instanceof ShouldQueue ? 'dispatch' : 'dispatchNow';
+
+        if (is_object($job)) {
+            return $this->$method($job);
         }
-        return $result;
+
+        return $this->$method(new $job(...$arguments));
     }
 
     public function runNow($job, array $arguments = [])
