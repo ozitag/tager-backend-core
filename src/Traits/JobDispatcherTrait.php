@@ -4,12 +4,37 @@ namespace OZiTAG\Tager\Backend\Core\Traits;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 trait JobDispatcherTrait
 {
     use ExceptionHandler, DispatchesJobs;
+
+    protected static function marshal($command, array $extras = [])
+    {
+        $injected = [];
+
+        $reflection = new \ReflectionClass($command);
+        if ($constructor = $reflection->getConstructor()) {
+            $injected = array_map(function ($parameter) use ($command, $extras) {
+                return self::getParameterValueForCommand($command, $parameter, $extras);
+            }, $constructor->getParameters());
+        }
+
+        return $reflection->newInstanceArgs($injected);
+    }
+
+    protected static function getParameterValueForCommand($command, \ReflectionParameter $parameter, array $extras = [])
+    {
+        if (array_key_exists($parameter->name, $extras)) {
+            return $extras[$parameter->name];
+        }
+
+        if ($parameter->isDefaultValueAvailable()) {
+            return $parameter->getDefaultValue();
+        }
+
+        throw new \Exception("Unable to map parameter [{$parameter->name}] to command [{$command}]");
+    }
 
     protected function runWithHandler(string $job, array $arguments = [])
     {
@@ -18,29 +43,32 @@ trait JobDispatcherTrait
 
     public function run($job, $arguments = [])
     {
-        $method = $job instanceof ShouldQueue ? 'dispatch' : 'dispatchNow';
-
-        if (is_object($job)) {
-            return $this->$method($job);
+        if (!is_object($job)) {
+            $job = $this->marshal($job, $arguments);
         }
 
-        return $this->$method(new $job(...$arguments));
+        $method = $job instanceof ShouldQueue ? 'dispatch' : 'dispatchNow';
+
+        return $this->$method($job);
     }
 
     public function runNow($job, array $arguments = [])
     {
-        if (is_object($job)) {
-            return $this->dispatchNow($job);
+        if (!is_object($job)) {
+            $job = $this->marshal($job, $arguments);
         }
 
-        return $this->dispatchNow(new $job(...$arguments));
+        return $this->dispatchNow($job);
     }
 
     public function runInQueue($job, array $arguments = [], $queue = 'default')
     {
-        $reflection = new \ReflectionClass($job);
-        $jobInstance = $reflection->newInstanceArgs($arguments);
-        $jobInstance->onQueue((string)$queue);
-        return $this->dispatch($jobInstance);
+        if (!is_object($job)) {
+            $job = $this->marshal($job, $arguments);
+        }
+
+        $job->onQueue($queue);
+
+        return $this->dispatch($job);
     }
 }
