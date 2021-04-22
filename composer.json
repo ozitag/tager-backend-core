@@ -23,7 +23,8 @@
     "ozitag/tager-backend-validation": "^1.0",
     "ozerich/laravel-filestorage-db": "^0.5",
     "predis/predis": "^1.1",
-    "league/flysystem-sftp": "^1"
+    "league/flysystem-sftp": "^1",
+    "sentry/sentry-laravel": "^2.4"
   },
   "autoload": {
     "psr-4": {
