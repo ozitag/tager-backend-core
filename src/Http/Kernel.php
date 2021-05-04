@@ -7,6 +7,7 @@ use Illuminate\Foundation\Http\Middleware\TrimStrings;
 use Illuminate\Foundation\Http\Middleware\ValidatePostSize;
 use OZiTAG\Tager\Backend\Core\Middlewares\DefaultHeadersMiddleware;
 use OZiTAG\Tager\Backend\Core\Middlewares\LocalizationMiddleware;
+use OZiTAG\Tager\Backend\Core\Middlewares\TrustProxies;
 
 class Kernel extends \Illuminate\Foundation\Http\Kernel
 {
@@ -23,6 +24,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         TrimStrings::class,
         LocalizationMiddleware::class,
         DefaultHeadersMiddleware::class,
+        TrustProxies::class,
     ];
 
     /**
