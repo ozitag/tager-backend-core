@@ -6,22 +6,23 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class SeoParamsResource extends JsonResource
 {
-    protected $title;
+    protected ?string $title = null;
 
-    protected $description;
+    protected ?string $description = null;
 
-    protected $openGraphImage;
+    protected ?string $openGraphImage = null;
 
-    protected $openGraphTitle;
+    protected ?string $openGraphTitle = null;
 
-    protected $openGraphDescription;
+    protected ?string $openGraphDescription = null;
 
-    public function __construct($title, $description = null)
+    public function __construct($title, $description = null, $keywords = null)
     {
         parent::__construct([]);
 
         $this->title = $title;
         $this->description = $description;
+        $this->keywords = $keywords;
     }
 
     public function setOpenGraph($imageUrl, $title = null, $description = null)
@@ -42,11 +43,12 @@ class SeoParamsResource extends JsonResource
         return [
             'title' => $this->title,
             'description' => $this->description,
+            'keywords' => $this->keywords,
             'openGraph' => [
                 'title' => !empty($this->openGraphTitle) ? $this->openGraphTitle : $this->title,
                 'description' => !empty($this->openGraphDescription) ? $this->openGraphDescription : $this->description,
                 'image' => $this->openGraphImage
-            ]
+            ],
         ];
     }
 }
