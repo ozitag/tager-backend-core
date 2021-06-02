@@ -18,7 +18,7 @@
     "fideloper/proxy": "^4.4",
     "doctrine/dbal": "^2.11",
     "bensampo/laravel-enum": "^3.0",
-    "kalnoy/nestedset": "^5.0",
+    "kalnoy/nestedset": "^6.0",
     "ozitag/tager-backend-http-cache": "^1.0",
     "ozitag/tager-backend-validation": "^1.0",
     "ozerich/laravel-filestorage-db": "^0.5",
