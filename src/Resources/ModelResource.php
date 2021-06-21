@@ -102,15 +102,15 @@ abstract class ModelResource extends JsonResource
         }
 
         if (is_string($value)) {
-            return date('Y-m-d H:i:s', strtotime($value));
+            return date('c', strtotime($value));
         }
 
         if (is_numeric($value)) {
-            return date('Y-m-d H:i:s', strtotime($value));
+            return date('c', strtotime($value));
         }
 
         if ($value instanceof \DateTime) {
-            return $value->format('Y-m-d H:i:s');
+            return $value->format('c');
         }
 
         return null;
