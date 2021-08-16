@@ -22,7 +22,13 @@ class TModel extends BaseModel
 
         if (static::$defaultOrder) {
             static::addGlobalScope('order', function (Builder $builder) {
-                $builder->orderByRaw(static::$defaultOrder);
+                if (str_contains(static::$defaultOrder, '.') === false) {
+                    $defaultOrder = (app(static::class))->getTable() . '.' . static::$defaultOrder;
+                } else {
+                    $defaultOrder = static::$defaultOrder;
+                }
+
+                $builder->orderByRaw($defaultOrder);
             });
         }
     }
