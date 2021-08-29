@@ -2,6 +2,7 @@
 
 namespace OZiTAG\Tager\Backend\Core\Http;
 
+use Fruitcake\Cors\HandleCors;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
 use Illuminate\Foundation\Http\Middleware\ValidatePostSize;
@@ -25,6 +26,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         LocalizationMiddleware::class,
         DefaultHeadersMiddleware::class,
         TrustProxies::class,
+        HandleCors::class
     ];
 
     /**
