@@ -5,6 +5,7 @@ namespace OZiTAG\Tager\Backend\Core\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use OZiTAG\Tager\Backend\Core\Facades\Pagination;
 use OZiTAG\Tager\Backend\Core\Pagination\Paginator;
@@ -158,7 +159,9 @@ class EloquentRepository implements IEloquentRepository
 
         $count = (clone $builder)->get()->count();
 
-        return new Paginator(
+        DB::enableQueryLog();
+
+        $result = new Paginator(
             $builder->offset(
                 Pagination::isOffsetBased()
                     ? Pagination::offset()
@@ -168,6 +171,9 @@ class EloquentRepository implements IEloquentRepository
                 ->get()->toFlatTree(),
             $count
         );
+
+
+        return $result;
     }
 
     /**
