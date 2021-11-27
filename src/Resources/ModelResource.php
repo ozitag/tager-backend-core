@@ -214,6 +214,8 @@ abstract class ModelResource extends JsonResource
                 case 'bool':
                 case 'boolean':
                     return isset($fieldParams[0]) && $fieldParams[0] === 'nullable' && is_null($value) ? null : (bool)$value;
+                case 'json':
+                    return $value ? json_decode($value) : null;
                 case 'enum':
                     $enumClass = $fieldParams[0];
                     if (!class_exists($enumClass)) {
