@@ -11,7 +11,7 @@ class Paginator extends Collection implements Arrayable
 {
     protected int $total;
 
-    public function __construct(\Illuminate\Database\Eloquent\Collection $items, int $count = 0)
+    public function __construct($items, int $count = 0)
     {
         $this->total = $count;
 
