@@ -8,4 +8,12 @@ return [
     'default_headers' => [
         'Accept' => 'application/json'
     ],
+    'validation' => [
+        'codePrefix' => 'VALIDATION',
+        'multipleErrors' => false,
+        'errorFormat' => [
+            'code' => '#code',
+            'message' => '#message',
+        ],
+    ]
 ];

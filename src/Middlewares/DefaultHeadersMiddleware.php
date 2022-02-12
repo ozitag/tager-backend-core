@@ -1,4 +1,5 @@
 <?php
+
 namespace OZiTAG\Tager\Backend\Core\Middlewares;
 
 use Illuminate\Support\Facades\Config;

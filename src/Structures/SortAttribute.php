@@ -8,12 +8,12 @@ class SortAttribute
 {
     public string $attribute;
 
-    public string $direction;
+    public SortDirection $direction;
 
-    public function __construct(string $attribute, string $direction = SortDirection::ASC)
+    public function __construct(string $attribute, SortDirection $direction = SortDirection::Asc)
     {
         $this->attribute = $attribute;
 
-        $this->direction = in_array($direction, SortDirection::getValues()) ? $direction : SortDirection::ASC;
+        $this->direction = in_array($direction, SortDirection::cases()) ? $direction : SortDirection::Asc;
     }
 }

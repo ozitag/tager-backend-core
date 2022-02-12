@@ -6,10 +6,7 @@ use OZiTAG\Tager\Backend\Core\Http\FormRequest;
 
 class QueryRequest extends FormRequest
 {
-    /**
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'query' => 'string|max:255|nullable',

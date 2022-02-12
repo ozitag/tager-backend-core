@@ -2,10 +2,8 @@
 
 namespace OZiTAG\Tager\Backend\Core\Models\Observers;
 
-use App\Helpers\ModelHelper;
-use App\Models\UUIDModel;
-use Illuminate\Support\Str;
 use OZiTAG\Tager\Backend\Core\Models\TModel;
+use OZiTAG\Tager\Backend\Utils\Helpers\UUID;
 
 /**
  * Class UUIDModelObserver
@@ -16,7 +14,7 @@ final class UUIDModelObserver
 {
     public function creating(TModel $model)
     {
-        $model->uuid = Str::uuid();
+        $model->uuid = UUID::get(4);
 
         return null;
     }

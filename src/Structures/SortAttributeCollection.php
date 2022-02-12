@@ -25,27 +25,27 @@ class SortAttributeCollection
 
         foreach ($data as $attribute) {
             $parts = explode(',', $attribute);
-            if (count($parts) > 1 && !in_array(strtolower($parts[1]), SortDirection::getValues())) {
+            if (count($parts) > 1 && !in_array(strtolower($parts[1]), SortDirection::cases())) {
                 continue;
             }
 
-            $result->add($parts[0], $parts[1] ?? SortDirection::ASC);
+            $result->add($parts[0], $parts[1] ?? SortDirection::Asc);
         }
 
         return $result;
     }
 
-    private function add(string $attribute, string $direction)
+    private function add(string $attribute, SortDirection $direction)
     {
-        if (in_array($direction, SortDirection::getValues())) {
+        if (in_array($direction, SortDirection::cases())) {
             $this->attributes[] = new SortAttribute($attribute, $direction);
         }
     }
 
     /**
-     * @return SortAttribute
+     * @return SortAttribute[]
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return $this->attributes;
     }

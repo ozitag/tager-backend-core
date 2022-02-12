@@ -6,10 +6,7 @@ use OZiTAG\Tager\Backend\Core\Http\FormRequest;
 
 class FilterRequest extends FormRequest
 {
-    /**
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'filter' => 'array|nullable',

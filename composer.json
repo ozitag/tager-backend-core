@@ -1,6 +1,6 @@
 {
   "name": "ozitag/tager-backend-core",
-  "description": "Base components for tager-backend",
+  "description": "Backend Core for all projects",
   "license": "MIT",
   "homepage": "https://github.com/ozitag/tager-backend-core",
   "authors": [
@@ -12,20 +12,26 @@
     }
   ],
   "require": {
-    "php": "^8.0",
-    "laravel/framework": "^8.0",
-    "laravel/tinker": "^2.4",
-    "fideloper/proxy": "^4.4",
-    "doctrine/dbal": "^2.11",
-    "bensampo/laravel-enum": "^3.0",
+    "php": "^8.1",
+    "laravel/framework": "^9.0",
+    "laravel/sanctum": "^2.14",
+    "laravel/tinker": "^2.7",
+    "guzzlehttp/guzzle": "^7.2",
+    "fruitcake/laravel-cors": "^2.0.5",
+    "sentry/sentry-laravel": "^2.11",
     "kalnoy/nestedset": "^6.0",
-    "ozitag/tager-backend-http-cache": "^1.0",
-    "ozitag/tager-backend-validation": "^1.0",
-    "ozerich/laravel-filestorage-db": "^0.5",
     "predis/predis": "^1.1",
-    "league/flysystem-sftp": "^1",
-    "sentry/sentry-laravel": "^2.4",
-    "fruitcake/laravel-cors": "^2.0"
+    "ozitag/tager-backend-http-cache": "^1.0",
+    "ozitag/tager-backend-utils": "^1.2",
+    "ozerich/laravel-filestorage-db": "^0.5"
+  },
+  "require-dev": {
+    "fakerphp/faker": "^1.9.1",
+    "laravel/sail": "^1.0.1",
+    "mockery/mockery": "^1.4.4",
+    "nunomaduro/collision": "^6.1",
+    "phpunit/phpunit": "^9.5.10",
+    "spatie/laravel-ignition": "^1.0"
   },
   "autoload": {
     "psr-4": {

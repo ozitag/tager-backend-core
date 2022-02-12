@@ -2,8 +2,8 @@
 
 namespace OZiTAG\Tager\Backend\Core\Enums;
 
-class SortDirection extends Enum
+enum SortDirection
 {
-    const ASC = 'asc';
-    const DESC = 'desc';
+    case Asc;
+    case Desc;
 }

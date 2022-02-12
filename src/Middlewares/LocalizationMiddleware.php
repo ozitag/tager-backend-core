@@ -1,4 +1,5 @@
 <?php
+
 namespace OZiTAG\Tager\Backend\Core\Middlewares;
 
 use Illuminate\Support\Facades\App;
@@ -14,8 +15,8 @@ class LocalizationMiddleware
     public function handle($request, \Closure $next)
     {
         $locale = strtolower(trim(
-            $request->header('Accept-Language')
-        )) ?? 'en';
+                $request->header('Accept-Language')
+            )) ?? 'en';
 
         if (in_array($locale, Config::get('app.available_locales', ['en']))) {
             App::setLocale($locale);

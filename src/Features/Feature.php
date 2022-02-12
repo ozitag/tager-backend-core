@@ -13,7 +13,8 @@ class Feature
 {
     use JobDispatcherTrait, UserAccess;
 
-    public function registerRequest(string $request) {
+    public function registerRequest(string $request)
+    {
         App::make($request);
     }
 
@@ -29,7 +30,8 @@ class Feature
         return $this;
     }
 
-    public function registerFilterRequest(): self {
+    public function registerFilterRequest(): self
+    {
         $this->registerRequest(FilterRequest::class);
         return $this;
     }

@@ -8,15 +8,15 @@ use OZiTAG\Tager\Backend\Core\Models\Observers\UUIDModelObserver;
 
 class TModel extends BaseModel
 {
-    static $defaultOrder = null;
+    static string|null $defaultOrder = null;
 
-    static $hasUUID = false;
+    static bool $hasUUID = false;
 
     protected static function boot()
     {
         parent::boot();
 
-        if(static::$hasUUID){
+        if (static::$hasUUID) {
             self::observe(UUIDModelObserver::class);
         }
 
@@ -37,32 +37,26 @@ class TModel extends BaseModel
     /**
      * Set the keys for a save update query.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder $query
+     * @return Builder
      */
     protected function setKeysForSaveQuery($query)
     {
         $keys = $this->getKeyName();
-        if(!is_array($keys)){
+        if (!is_array($keys)) {
             return parent::setKeysForSaveQuery($query);
         }
 
-        foreach($keys as $keyName){
+        foreach ($keys as $keyName) {
             $query->where($keyName, '=', $this->getKeyForSaveQuery($keyName));
         }
 
         return $query;
     }
 
-    /**
-     * Get the primary key value for a save query.
-     *
-     * @param mixed $keyName
-     * @return mixed
-     */
-    protected function getKeyForSaveQuery($keyName = null)
+    protected function getKeyForSaveQuery(?string $keyName = null): mixed
     {
-        if(is_null($keyName)){
+        if (is_null($keyName)) {
             $keyName = $this->getKeyName();
         }
 

@@ -3,21 +3,18 @@
 namespace OZiTAG\Tager\Backend\Core\Routing;
 
 use Illuminate\Routing\ResourceRegistrar as BaseResourceRegistrar;
+use Illuminate\Routing\Route;
 
 class ResourceRegistrar extends BaseResourceRegistrar
 {
     protected $resourceDefaults = ['index', 'store', 'show', 'update', 'destroy', 'move', 'count'];
 
-    /**
-     * Add the index method for a resourceful route.
-     *
-     * @param string $name
-     * @param string $base
-     * @param string $controller
-     * @param array $options
-     * @return \Illuminate\Routing\Route
-     */
-    protected function addResourceMove($name, $base, $controller, $options)
+    public function getResourceWildcard($value): string
+    {
+        return 'id';
+    }
+
+    protected function addResourceMove(string $name, string $base, string $controller, array $options): Route
     {
         $uri = $this->getResourceUri($name) . '/{' . $base . '}' . '/move/{direction}';
 
@@ -26,16 +23,7 @@ class ResourceRegistrar extends BaseResourceRegistrar
         return $this->router->post($uri, $action);
     }
 
-    /**
-     * Add the count method for a resourceful route.
-     *
-     * @param string $name
-     * @param string $base
-     * @param string $controller
-     * @param array $options
-     * @return \Illuminate\Routing\Route
-     */
-    protected function addResourceCount($name, $base, $controller, $options)
+    protected function addResourceCount(string $name, string $base, string $controller, array $options): Route
     {
         $uri = $this->getResourceUri($name) . '/count';
 
@@ -52,9 +40,9 @@ class ResourceRegistrar extends BaseResourceRegistrar
      * @param string $base
      * @param string $controller
      * @param array $options
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
-    protected function addResourceUpdate($name, $base, $controller, $options)
+    protected function addResourceUpdate($name, $base, $controller, $options): Route
     {
         $name = $this->getShallowName($name, $options);
 
@@ -73,9 +61,9 @@ class ResourceRegistrar extends BaseResourceRegistrar
      * @param string $base
      * @param string $controller
      * @param array $options
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
-    protected function addResourceDestroy($name, $base, $controller, $options)
+    protected function addResourceDestroy($name, $base, $controller, $options): Route
     {
         $name = $this->getShallowName($name, $options);
 
@@ -93,9 +81,9 @@ class ResourceRegistrar extends BaseResourceRegistrar
      * @param string $base
      * @param string $controller
      * @param array $options
-     * @return \Illuminate\Routing\Route
+     * @return Route
      */
-    protected function addResourceShow($name, $base, $controller, $options)
+    protected function addResourceShow($name, $base, $controller, $options): Route
     {
         $name = $this->getShallowName($name, $options);
 
@@ -104,10 +92,5 @@ class ResourceRegistrar extends BaseResourceRegistrar
         $action = $this->getResourceAction($name, $controller, 'view', $options);
 
         return $this->router->get($uri, $action);
-    }
-
-    public function getResourceWildcard($value)
-    {
-        return 'id';
     }
 }

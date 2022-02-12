@@ -30,7 +30,8 @@ trait ExceptionHandler
      * @param string $logLevel
      * @return $this
      */
-    protected function logException(Throwable $exception, string $logLevel) {
+    protected function logException(Throwable $exception, string $logLevel)
+    {
         Log::$logLevel([$exception->getMessage(), $exception->getFile(), $exception->getLine()]);
         return $this;
     }
@@ -38,7 +39,8 @@ trait ExceptionHandler
     /**
      * @param Throwable $exception
      */
-    protected function resolveException(Throwable $exception) {
+    protected function resolveException(Throwable $exception)
+    {
         throw new $exception;
     }
 }

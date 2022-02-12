@@ -3,6 +3,7 @@
 namespace OZiTAG\Tager\Backend\Core\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use JetBrains\PhpStorm\Pure;
 
 class SeoParamsResource extends JsonResource
 {
@@ -10,13 +11,12 @@ class SeoParamsResource extends JsonResource
 
     protected ?string $description = null;
 
+    protected ?string $keywords = null;
+
     protected ?string $openGraphImage = null;
 
-    protected ?string $openGraphTitle = null;
-
-    protected ?string $openGraphDescription = null;
-
-    public function __construct($title, $description = null, $keywords = null)
+    #[Pure]
+    public function __construct(?string $title, ?string $description = null, ?string $keywords = null)
     {
         parent::__construct([]);
 
@@ -25,11 +25,10 @@ class SeoParamsResource extends JsonResource
         $this->keywords = $keywords;
     }
 
-    public function setOpenGraph($imageUrl, $title = null, $description = null)
+    public function setOpenGraphImage(?string $imageUrl): self
     {
         $this->openGraphImage = $imageUrl;
-        $this->openGraphTitle = $title;
-        $this->openGraphDescription = $description;
+        return $this;
     }
 
     /**
@@ -44,11 +43,7 @@ class SeoParamsResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'keywords' => $this->keywords,
-            'openGraph' => [
-                'title' => !empty($this->openGraphTitle) ? $this->openGraphTitle : $this->title,
-                'description' => !empty($this->openGraphDescription) ? $this->openGraphDescription : $this->description,
-                'image' => $this->openGraphImage
-            ],
+            'openGraphImage' => $this->openGraphImage,
         ];
     }
 }

@@ -9,20 +9,19 @@ abstract class JsonResource extends BaseJsonResource
 {
     abstract function getData();
 
-    /** @var Request */
-    protected $request;
+    protected Request $request;
 
-    public function withRequest($request)
+    public function withRequest(Request $request)
     {
         $this->request = $request;
     }
 
-    protected function getRequest()
+    protected function getRequest(): Request
     {
         return $this->request;
     }
 
-    public function toArray($request)
+    public function toArray($request): array|\JsonSerializable|\Illuminate\Contracts\Support\Arrayable
     {
         return $this->getData();
     }

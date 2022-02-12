@@ -2,17 +2,12 @@
 
 namespace OZiTAG\Tager\Backend\Core\Utils;
 
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
-use Illuminate\Support\Facades\App;
-use OZiTAG\Tager\Backend\Panel\Contracts\IRouteHandler;
-use OZiTAG\Tager\Backend\Panel\Structures\TagerRouteHandler;
-
 class TagerVariables
 {
     /** @var string[] */
     private static array $variableJobs = [];
 
-    /** @var mixed[] */
+    /** @var array */
     private static array $variableDefaultValues = [];
 
     public function getValue(string $variable): mixed

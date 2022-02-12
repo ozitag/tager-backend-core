@@ -2,20 +2,18 @@
 
 namespace OZiTAG\Tager\Backend\Core\Features;
 
+use Illuminate\Database\Eloquent\Model;
 use OZiTAG\Tager\Backend\Core\Repositories\EloquentRepository;
 
 class ModelFeature extends Feature
 {
-    /** @var string */
-    private $jobGetByIdClass;
+    protected string $jobGetByIdClass;
 
-    /** @var EloquentRepository */
-    private $repository;
+    protected ?EloquentRepository $repository;
 
-    /** @var integer */
-    protected $id;
+    protected int $id;
 
-    public function __construct($id, $jobGetByIdClass, ?EloquentRepository $repository = null)
+    public function __construct(int $id, string $jobGetByIdClass, ?EloquentRepository $repository = null)
     {
         $this->id = $id;
 
@@ -24,7 +22,7 @@ class ModelFeature extends Feature
         $this->repository = $repository;
     }
 
-    protected function model()
+    protected function model(): Model
     {
         if ($this->jobGetByIdClass) {
             $model = $this->run($this->jobGetByIdClass, ['id' => $this->id]);

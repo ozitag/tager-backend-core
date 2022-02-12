@@ -11,18 +11,10 @@ use OZiTAG\Tager\Backend\Core\Facades\Pagination;
 use OZiTAG\Tager\Backend\Core\Pagination\Paginator;
 use OZiTAG\Tager\Backend\Core\Structures\SortAttributeCollection;
 
-class EloquentRepository implements IEloquentRepository
+class EloquentRepository
 {
-    /**
-     * @var Model
-     */
-    protected $model;
+    protected Model $model;
 
-    /**
-     * EloquentRepository constructor.
-     *
-     * @param Model $model
-     */
     public function __construct(Model $model)
     {
         $this->model = $model;
@@ -33,11 +25,7 @@ class EloquentRepository implements IEloquentRepository
         return $this->model::query();
     }
 
-    /**
-     * @param array $defaultValues
-     * @return Model
-     */
-    public function createModelInstance($defaultValues = []): Model
+    public function createModelInstance(array $defaultValues = []): Model
     {
         $className = get_class($this->model);
 
@@ -49,30 +37,25 @@ class EloquentRepository implements IEloquentRepository
         return $this->model;
     }
 
-    public function reset(): static
+    public function reset(): self
     {
         $this->createModelInstance();
         return $this;
     }
 
-    /**
-     * @param array $attributes
-     *
-     * @return Model
-     */
     public function create(array $attributes): Model
     {
         return $this->model->create($attributes);
     }
 
-    public function set(Model $model): static
+    public function set(Model $model): self
     {
         $this->model = $model;
 
         return $this;
     }
 
-    public function setById(int $id): static
+    public function setById(int $id): self
     {
         $this->model = $this->find($id);
 
@@ -102,17 +85,12 @@ class EloquentRepository implements IEloquentRepository
         return $this->model->first();
     }
 
-    /**
-     * Returns all the records.
-     *
-     * @return Collection
-     */
-    public function all()
+    public function all(): Collection
     {
         return $this->model->all();
     }
 
-    public function get($paginate = false, ?string $query = null, ?array $filter = [], ?SortAttributeCollection $sortAttributes = null)
+    public function get(bool $paginate = false, ?string $query = null, ?array $filter = [], ?SortAttributeCollection $sortAttributes = null)
     {
         $builder = $query && $this instanceof ISearchable
             ? $this->searchByQuery($query)
@@ -133,7 +111,7 @@ class EloquentRepository implements IEloquentRepository
         return $this->paginate($builder);
     }
 
-    public function toFlatTree($paginate = false, ?string $query = null, ?array $filter = [])
+    public function toFlatTree(bool $paginate = false, ?string $query = null, ?array $filter = [])
     {
         $builder = $query && $this instanceof ISearchable
             ? $this->searchByQuery($query)
@@ -159,7 +137,7 @@ class EloquentRepository implements IEloquentRepository
 
         $count = (clone $builder)->get()->count();
 
-        $result = new Paginator(
+        return new Paginator(
             $builder->offset(
                 Pagination::isOffsetBased()
                     ? Pagination::offset()
@@ -169,16 +147,9 @@ class EloquentRepository implements IEloquentRepository
                 ->get(),
             $count
         );
-
-
-        return $result;
     }
 
-    /**
-     * @param Builder $builder
-     * @return Paginator
-     */
-    public function paginate(Builder $builder = null)
+    public function paginate(Builder $builder = null): Paginator
     {
         $builder = $builder ? $builder : $this->model;
         $count = (clone $builder)->get()->count();
@@ -216,21 +187,12 @@ class EloquentRepository implements IEloquentRepository
         return $builder;
     }
 
-    /**
-     * Returns the count of all the records.
-     *
-     * @return int
-     */
-    public function count()
+    public function count(): int
     {
         return $this->model->count();
     }
 
-    /**
-     * @param $attributes
-     * @return Model
-     */
-    public function fillAndSave($attributes)
+    public function fillAndSave(array $attributes): Model
     {
         $this->model->fill($attributes);
         $this->model->save();
@@ -238,11 +200,7 @@ class EloquentRepository implements IEloquentRepository
         return $this->model;
     }
 
-    /**
-     * @param $attributes
-     * @return Model|null
-     */
-    public function update($attributes)
+    public function update(array $attributes): ?Model
     {
         $this->model->update($attributes);
         return $this->model->fresh();

@@ -2,10 +2,9 @@
 
 namespace OZiTAG\Tager\Backend\Core\Exceptions;
 
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as BaseExceptionHandler;
 use Illuminate\Validation\ValidationException;
-use OZiTAG\Tager\Backend\Validation\Exceptions\LiteValidationException;
+use OZiTAG\Tager\Backend\Core\Validation\Exceptions\LiteValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 

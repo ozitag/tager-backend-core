@@ -4,14 +4,16 @@ namespace OZiTAG\Tager\Backend\Core\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use JetBrains\PhpStorm\ArrayShape;
+use JetBrains\PhpStorm\Pure;
 
 class SuccessResource extends JsonResource
 {
+    #[Pure]
     public function __construct($resource = null)
     {
         parent::__construct($resource);
     }
-
 
     /**
      * Transform the resource into an array.
@@ -19,7 +21,8 @@ class SuccessResource extends JsonResource
      * @param Request $request
      * @return array
      */
-    public function toResponse($request)
+    #[ArrayShape(['success' => "bool"])]
+    public function toResponse($request): array
     {
         return [
             'success' => true

@@ -6,7 +6,6 @@ use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Ozerich\FileStorage\Models\File;
-use OZiTAG\Tager\Backend\Core\Enums\Enum;
 use OZiTAG\Tager\Backend\Core\Jobs\Job;
 use OZiTAG\Tager\Backend\Utils\Helpers\ArrayHelper;
 
@@ -218,13 +217,17 @@ abstract class ModelResource extends JsonResource
                     return $value ? json_decode($value) : null;
                 case 'enum':
                     $enumClass = $fieldParams[0];
-                    if (!class_exists($enumClass)) {
-                        throw new \Exception('Class not found "' . $enumClass . '"');
-                    }
-                    if (is_subclass_of($enumClass, Enum::class) == false) {
+
+                    if (enum_exists($enumClass) == false) {
                         throw new \Exception('Invalid Enum class "' . $enumClass . '"');
                     }
-                    return $enumClass::label($value);
+
+                    $labelMethod = new \ReflectionMethod($enumClass, 'label');
+                    if ($labelMethod && $labelMethod->isStatic()) {
+                        return $enumClass::label($value);
+                    } else {
+                        return $value;
+                    }
                 default:
                     throw new \Exception('Invalid type "' . $type . '"');
             }

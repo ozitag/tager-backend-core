@@ -3,6 +3,7 @@
 namespace OZiTAG\Tager\Backend\Core\Pagination;
 
 use Illuminate\Contracts\Support\Arrayable;
+use JetBrains\PhpStorm\ArrayShape;
 use Kalnoy\Nestedset\Collection;
 use OZiTAG\Tager\Backend\Core\Facades\Pagination;
 
@@ -10,18 +11,15 @@ class Paginator extends Collection implements Arrayable
 {
     protected int $total;
 
-    /**
-     * Paginator constructor.
-     * @param array $items
-     * @param int $count
-     */
-    public function __construct($items = [], int $count = 0)
+    public function __construct(array $items = [], int $count = 0)
     {
         $this->total = $count;
+
         parent::__construct($items);
     }
 
-    public function getMeta()
+    #[ArrayShape(['page' => "array", 'total' => "int"])]
+    public function getMeta(): array
     {
         $perPage = Pagination::perPage();
 

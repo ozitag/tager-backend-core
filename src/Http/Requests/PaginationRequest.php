@@ -6,10 +6,7 @@ use OZiTAG\Tager\Backend\Core\Http\FormRequest;
 
 class PaginationRequest extends FormRequest
 {
-    /**
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'pageOffset' => 'integer|min:0|required_with:pageLimit',

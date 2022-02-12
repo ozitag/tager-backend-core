@@ -3,65 +3,43 @@
 namespace OZiTAG\Tager\Backend\Core\Console;
 
 use Illuminate\Console\Command as BaseCommand;
+use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Support\Collection;
-use OZiTAG\Tager\Backend\Core\Events\JobStarted;
-use OZiTAG\Tager\Backend\Core\Events\OperationStarted;
-use OZiTAG\Tager\Backend\Core\Jobs\Job;
-use OZiTAG\Tager\Backend\Core\Jobs\Operation;
-use OZiTAG\Tager\Backend\Core\Traits\ExceptionHandler;
-use OZiTAG\Tager\Backend\Core\Traits\MarshalTrait;
 use OZiTAG\Tager\Backend\Utils\Helpers\DateHelper;
 
 abstract class Command extends BaseCommand
 {
     use DispatchesJobs;
 
-    /** @var string */
-    protected $log;
+    protected string $log;
 
-    /** @var int */
-    protected $logSavePortion = 3;
+    protected int $logSavePortion = 3;
 
-    /** @var int */
-    private $logNum = 0;
+    protected int $logNum = 0;
 
-    /** @var bool */
-    private $lineCompleted = true;
+    protected bool $lineCompleted = true;
 
-    /** @var \Closure */
-    private $logCallback;
+    protected ?\Closure $logCallback = null;
 
     /**
      * beautifier function to be called instead of the
      * laravel function dispatchFromArray.
      * When the $arguments is an instance of Request
      * it will call dispatchFrom instead.
-     *
-     * @param string $job
-     * @param array $arguments
-     *
-     * @return mixed
      */
-    public function runJob($job, $arguments = [])
+    public function runJob(string|object $job, array $arguments = []): mixed
     {
         if (is_object($job)) {
-            return $this->dispatchNow($job);
+            return app(Dispatcher::class)->dispatchNow($job);
+        } else {
+            return app(Dispatcher::class)->dispatchNow(new $job(...$arguments));
         }
-        return $this->dispatchNow( new $job(...$arguments) );
     }
 
     /**
      * Run the given job in the given queue.
-     *
-     * @param string $job
-     * @param array $arguments
-     * @param string $queue
-     *
-     * @return mixed
-     * @throws \ReflectionException
      */
-    public function runInQueue($job, array $arguments = [], $queue = 'default')
+    public function runInQueue(string|object $job, array $arguments = [], string $queue = 'default'): mixed
     {
         $reflection = new \ReflectionClass($job);
         $jobInstance = $reflection->newInstanceArgs($arguments);
@@ -69,24 +47,24 @@ abstract class Command extends BaseCommand
         return $this->dispatch($jobInstance);
     }
 
-    protected function setLogCallback($callback)
+    protected function setLogCallback(\Closure $callback): void
     {
         $this->logCallback = $callback;
     }
 
-    private function triggerSaveLogForCallback()
+    private function triggerSaveLogForCallback(): void
     {
         if ($this->logCallback) {
             call_user_func($this->logCallback, $this->log);
         }
     }
 
-    protected function write($message)
+    protected function write(string $message): void
     {
         echo $message . "\n";
     }
 
-    protected function log($message, $lineComplete = true)
+    protected function log(string $message, bool $lineComplete = true): void
     {
         $prefix = ($this->lineCompleted ? DateHelper::getHumanDateTime() . ' - ' : '');
         $logMessage = $prefix . $message;
