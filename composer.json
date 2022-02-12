@@ -23,7 +23,8 @@
     "predis/predis": "^1.1",
     "ozitag/tager-backend-http-cache": "^1.0",
     "ozitag/tager-backend-utils": "^1.2",
-    "ozerich/laravel-filestorage-db": "^0.5"
+    "ozerich/laravel-filestorage-db": "^0.5",
+    "doctrine/dbal": "^3.3"
   },
   "require-dev": {
     "fakerphp/faker": "^1.9.1",
