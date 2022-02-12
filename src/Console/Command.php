@@ -19,7 +19,7 @@ abstract class Command extends BaseCommand
 
     protected bool $lineCompleted = true;
 
-    protected ?\Closure $logCallback = null;
+    protected $logCallback = null;
 
     /**
      * beautifier function to be called instead of the
@@ -47,7 +47,7 @@ abstract class Command extends BaseCommand
         return $this->dispatch($jobInstance);
     }
 
-    protected function setLogCallback(\Closure $callback): void
+    protected function setLogCallback(callable $callback): void
     {
         $this->logCallback = $callback;
     }
