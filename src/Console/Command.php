@@ -11,7 +11,7 @@ abstract class Command extends BaseCommand
 {
     use DispatchesJobs;
 
-    protected string $log;
+    protected string $log = '';
 
     protected int $logSavePortion = 3;
 
@@ -19,7 +19,7 @@ abstract class Command extends BaseCommand
 
     protected bool $lineCompleted = true;
 
-    protected $logCallback = null;
+    protected array|\Closure|null $logCallback = null;
 
     /**
      * beautifier function to be called instead of the
