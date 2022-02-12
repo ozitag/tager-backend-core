@@ -8,7 +8,7 @@ use OZiTAG\Tager\Backend\Core\Models\Observers\UUIDModelObserver;
 
 class TModel extends BaseModel
 {
-    static string|null $defaultOrder = null;
+    static string $defaultOrder;
 
     static bool $hasUUID = false;
 
