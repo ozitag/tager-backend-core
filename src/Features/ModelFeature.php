@@ -7,13 +7,13 @@ use OZiTAG\Tager\Backend\Core\Repositories\EloquentRepository;
 
 class ModelFeature extends Feature
 {
-    protected string $jobGetByIdClass;
+    protected ?string $jobGetByIdClass;
 
     protected ?EloquentRepository $repository;
 
     protected int $id;
 
-    public function __construct(int $id, string $jobGetByIdClass, ?EloquentRepository $repository = null)
+    public function __construct(int $id, ?string $jobGetByIdClass, ?EloquentRepository $repository = null)
     {
         $this->id = $id;
 
