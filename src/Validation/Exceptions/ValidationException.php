@@ -26,4 +26,9 @@ class ValidationException extends BaseValidationException
 
         return $messages;
     }
+
+    protected static function summarize($validator)
+    {
+        return 'The given data was invalid.';
+    }
 }

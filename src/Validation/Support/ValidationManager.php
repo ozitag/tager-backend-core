@@ -14,7 +14,7 @@ class ValidationManager
 {
     public function isMultiErrorsSupport(): bool
     {
-        return (boolean)config::get('tager-core.validation.multipleErrors');
+        return (boolean)config::get('tager-app.validation.multipleErrors');
     }
 
     /**
@@ -41,7 +41,7 @@ class ValidationManager
 
     public function getCodePrefix(): ?string
     {
-        return (string)config::get('tager-core.validation.codePrefix') ?? null;
+        return (string)config::get('tager-app.validation.codePrefix') ?? null;
     }
 
     public function getCode(mixed $rule, ?string $param = null): string
@@ -62,7 +62,7 @@ class ValidationManager
         ?string $fieldName = null, ?string $code = null, ?string $message = null
     ): array
     {
-        $formatJson = json_encode(config::get('tager-core.validation.errorFormat'));
+        $formatJson = json_encode(config::get('tager-app.validation.errorFormat'));
 
         $params = [
             'fieldName' => $fieldName,
