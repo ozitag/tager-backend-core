@@ -94,7 +94,7 @@ class EloquentRepository
     {
         $builder = $query && $this instanceof ISearchable
             ? $this->searchByQuery($query)
-            : $this->model->query();
+            : $this->builder();
 
         $builder = $filter && $this instanceof IFilterable
             ? $this->filter($filter, $builder)
@@ -115,7 +115,7 @@ class EloquentRepository
     {
         $builder = $query && $this instanceof ISearchable
             ? $this->searchByQuery($query)
-            : $this->model->query();
+            : $this->builder();
 
         $builder = $filter && $this instanceof IFilterable
             ? $this->filter($filter, $builder)
