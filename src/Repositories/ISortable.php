@@ -8,5 +8,5 @@ use OZiTAG\Tager\Backend\Core\Structures\SortAttributeCollection;
 
 interface ISortable
 {
-    public function sort(?SortAttributeCollection $attributes = null, Builder $builder = null): ?Builder;
+    public function sort(?string $sort = null, Builder $builder = null): ?Builder;
 }

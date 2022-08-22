@@ -90,35 +90,37 @@ class EloquentRepository
         return $this->model->all();
     }
 
-    public function get(bool $paginate = false, ?string $query = null, ?array $filter = [], ?SortAttributeCollection $sortAttributes = null)
+    public function get(bool $paginate = false, ?string $query = null, ?array $filter = [], ?string $sort = null)
     {
+        $builder = $this->builder();
+
         $builder = $query && $this instanceof ISearchable
             ? $this->searchByQuery($query)
-            : $this->builder();
+            : $builder;
 
         $builder = $filter && $this instanceof IFilterable
             ? $this->filter($filter, $builder)
             : $builder;
 
-        $builder = $sortAttributes && $this instanceof ISortable
-            ? $this->sort($sortAttributes, $builder)
+        $builder = $sort && $this instanceof ISortable
+            ? $this->sort($sort, $builder)
             : $builder;
 
-        if (!$paginate) {
-            return $builder->get();
-        }
-
-        return $this->paginate($builder);
+        return $paginate ? $this->paginate($builder) : $builder->get();
     }
 
     public function toFlatTree(bool $paginate = false, ?string $query = null, ?array $filter = [])
     {
         $builder = $query && $this instanceof ISearchable
             ? $this->searchByQuery($query)
-            : $this->builder();
+            : $builder;
 
         $builder = $filter && $this instanceof IFilterable
             ? $this->filter($filter, $builder)
+            : $builder;
+
+        $builder = $sort && $this instanceof ISortable
+            ? $this->sort($sort, $builder)
             : $builder;
 
         $builder = $builder->withDepth()->defaultOrder();
