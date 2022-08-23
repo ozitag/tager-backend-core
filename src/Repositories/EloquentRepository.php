@@ -109,11 +109,9 @@ class EloquentRepository
         return $paginate ? $this->paginate($builder) : $builder->get();
     }
 
-    public function toFlatTree(bool $paginate = false, ?string $query = null, ?array $filter = [])
+    public function toFlatTree(bool $paginate = false, ?string $query = null, ?array $filter = [], ?string $sort = null)
     {
-        $builder = $query && $this instanceof ISearchable
-            ? $this->searchByQuery($query)
-            : $builder;
+        $builder = $this->builder();
 
         $builder = $filter && $this instanceof IFilterable
             ? $this->filter($filter, $builder)
