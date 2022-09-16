@@ -105,7 +105,7 @@ abstract class ModelResource extends JsonResource
         }
 
         if (is_numeric($value)) {
-            return date('c', strtotime($value));
+            return date('c', $value);
         }
 
         if ($value instanceof \DateTime) {
@@ -126,7 +126,7 @@ abstract class ModelResource extends JsonResource
         }
 
         if (is_numeric($value)) {
-            return date('Y-m-d', strtotime($value));
+            return date('Y-m-d', $value);
         }
 
         if ($value instanceof \DateTime) {
