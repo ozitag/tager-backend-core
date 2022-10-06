@@ -139,7 +139,7 @@ class EloquentRepository
             return $builder->get()->toFlatTree();
         }
 
-        $count = (clone $builder)->get()->count();
+        $count = (clone $builder)->distinct()->count();
 
         return new Paginator(
             $builder->offset(
@@ -155,8 +155,9 @@ class EloquentRepository
 
     public function paginate(Builder $builder = null): Paginator
     {
-        $builder = $builder ? $builder : $this->model;
-        $count = (clone $builder)->get()->count();
+        $builder = $builder ?: $this->model;
+
+        $count = (clone $builder)->distinct()->count();
 
         return new Paginator(
             $builder->offset(
