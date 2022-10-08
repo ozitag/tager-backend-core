@@ -4,6 +4,7 @@ namespace OZiTAG\Tager\Backend\Core\Validation;
 
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\InvokableValidationRule;
 use Illuminate\Validation\Validator as BaseValidator;
 use OZiTAG\Tager\Backend\Core\Validation\Facades\Validation;
 use OZiTAG\Tager\Backend\Core\Validation\Support\ValidatorTranslator;
@@ -70,6 +71,10 @@ class Validator extends BaseValidator
      */
     protected function validateUsingCustomRule($attribute, $value, $rule)
     {
+        if ($rule instanceof InvokableValidationRule) {
+            $rule->setValidator($this);
+        }
+
         $attribute = $this->replacePlaceholderInString($attribute);
 
         $value = is_array($value) ? $this->replacePlaceholders($value) : $value;
