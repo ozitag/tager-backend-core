@@ -117,6 +117,8 @@ class EloquentRepository
     {
         $builder = $builder ?: $this->builder();
 
+        $builder = $builder->withDepth()->defaultOrder();
+
         $builder = $filter && $this instanceof IFilterable
             ? $this->filter($filter, $builder)
             : $builder;
@@ -124,8 +126,6 @@ class EloquentRepository
         $builder = $sort && $this instanceof ISortable
             ? $this->sort($sort, $builder)
             : $builder;
-
-        $builder = $builder->withDepth()->defaultOrder();
 
         if ($query || $filter) {
             if (!$paginate) {
