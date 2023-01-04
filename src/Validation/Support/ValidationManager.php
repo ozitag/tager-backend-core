@@ -67,7 +67,7 @@ class ValidationManager
         $params = [
             'fieldName' => $fieldName,
             'code' => $code,
-            'message' => $message,
+            'message' => addslashes($message),
         ];
 
         $errorMessageJson = preg_replace_callback(
