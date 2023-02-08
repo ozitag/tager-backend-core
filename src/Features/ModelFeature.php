@@ -2,7 +2,7 @@
 
 namespace OZiTAG\Tager\Backend\Core\Features;
 
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Database\Eloquent\Builder as BuilderContract;
 use Illuminate\Database\Eloquent\Model;
 use OZiTAG\Tager\Backend\Core\Repositories\EloquentRepository;
 
@@ -12,7 +12,7 @@ class ModelFeature extends Feature
         protected int                 $id,
         protected ?string             $jobGetByIdClass,
         protected ?EloquentRepository $repository = null,
-        protected ?Builder            $queryBuilder)
+        protected ?BuilderContract            $queryBuilder)
     {
     }
 

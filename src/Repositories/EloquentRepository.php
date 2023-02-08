@@ -2,7 +2,7 @@
 
 namespace OZiTAG\Tager\Backend\Core\Repositories;
 
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Database\Eloquent\Builder as BuilderContract;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -95,7 +95,7 @@ class EloquentRepository
         return $this->model->all();
     }
 
-    public function get(?Builder $builder = null, bool $paginate = false, ?string $query = null, ?array $filter = [], ?string $sort = null)
+    public function get(?BuilderContract $builder = null, bool $paginate = false, ?string $query = null, ?array $filter = [], ?string $sort = null)
     {
         $builder = $builder ?: $this->builder();
         $builder = $query && $this instanceof ISearchable
@@ -113,7 +113,7 @@ class EloquentRepository
         return $paginate ? $this->paginate($builder) : $builder->get();
     }
 
-    public function toFlatTree(?Builder $builder = null, bool $paginate = false, ?string $query = null, ?array $filter = [], ?string $sort = null)
+    public function toFlatTree(?BuilderContract $builder = null, bool $paginate = false, ?string $query = null, ?array $filter = [], ?string $sort = null)
     {
         $builder = $builder ?: $this->builder();
 
@@ -153,7 +153,7 @@ class EloquentRepository
         );
     }
 
-    public function paginate(Builder $builder = null): Paginator
+    public function paginate(BuilderContract $builder = null): Paginator
     {
         $builder = $builder ?: $this->model;
 
@@ -171,7 +171,7 @@ class EloquentRepository
         );
     }
 
-    public function filter(?array $filter = [], ?Builder $builder = null): ?Builder
+    public function filter(?array $filter = [], ?Builder $builder = null): ?BuilderContract
     {
         $builder = $builder ?? $this->model;
         if (!$filter || empty($filter)) {
@@ -187,7 +187,7 @@ class EloquentRepository
         return $builder;
     }
 
-    public function filterByKey(Builder $builder, string $key, mixed $value): Builder
+    public function filterByKey(Builder $builder, string $key, mixed $value): BuilderContract
     {
         return $builder;
     }

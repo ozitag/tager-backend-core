@@ -2,7 +2,7 @@
 
 namespace OZiTAG\Tager\Backend\Core\Models;
 
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Database\Eloquent\Builder as BuilderContract;
 use Illuminate\Database\Eloquent\Model as BaseModel;
 use OZiTAG\Tager\Backend\Core\Models\Observers\UUIDModelObserver;
 
@@ -21,7 +21,7 @@ class TModel extends BaseModel
         }
 
         if (static::$defaultOrder) {
-            static::addGlobalScope('order', function (Builder $builder) {
+            static::addGlobalScope('order', function (BuilderContract $builder) {
                 if (str_contains(static::$defaultOrder, '.') === false) {
                     $defaultOrder = (app(static::class))->getTable() . '.' . static::$defaultOrder;
                 } else {
