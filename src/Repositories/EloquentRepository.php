@@ -2,12 +2,11 @@
 
 namespace OZiTAG\Tager\Backend\Core\Repositories;
 
-use Illuminate\Contracts\Database\Eloquent\BuilderContract as BuilderContract;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use OZiTAG\Tager\Backend\Core\Facades\Pagination;
 use OZiTAG\Tager\Backend\Core\Pagination\Paginator;
-use OZiTAG\Tager\Backend\Core\Structures\SortAttributeCollection;
 
 class EloquentRepository
 {
@@ -93,7 +92,7 @@ class EloquentRepository
         return $this->model->all();
     }
 
-    public function get(?BuilderContract $builder = null, bool $paginate = false, ?string $query = null, ?array $filter = [], ?string $sort = null)
+    public function get(?Builder $builder = null, bool $paginate = false, ?string $query = null, ?array $filter = [], ?string $sort = null)
     {
         $builder = $builder ?: $this->builder();
         $builder = $query && $this instanceof ISearchable
@@ -111,7 +110,7 @@ class EloquentRepository
         return $paginate ? $this->paginate($builder) : $builder->get();
     }
 
-    public function toFlatTree(?BuilderContract $builder = null, bool $paginate = false, ?string $query = null, ?array $filter = [], ?string $sort = null)
+    public function toFlatTree(?Builder $builder = null, bool $paginate = false, ?string $query = null, ?array $filter = [], ?string $sort = null)
     {
         $builder = $builder ?: $this->builder();
 
@@ -151,7 +150,7 @@ class EloquentRepository
         );
     }
 
-    public function paginate(BuilderContract $builder = null): Paginator
+    public function paginate(Builder $builder = null): Paginator
     {
         $builder = $builder ?: $this->model;
 
@@ -169,7 +168,7 @@ class EloquentRepository
         );
     }
 
-    public function filter(?array $filter = [], ?BuilderContract $builder = null): ?BuilderContract
+    public function filter(?array $filter = [], ?Builder $builder = null): ?Builder
     {
         $builder = $builder ?? $this->model;
         if (!$filter || empty($filter)) {
@@ -185,7 +184,7 @@ class EloquentRepository
         return $builder;
     }
 
-    public function filterByKey(BuilderContract $builder, string $key, mixed $value): BuilderContract
+    public function filterByKey(Builder $builder, string $key, mixed $value): Builder
     {
         return $builder;
     }
