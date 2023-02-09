@@ -2,11 +2,9 @@
 
 namespace OZiTAG\Tager\Backend\Core\Repositories;
 
-use Illuminate\Contracts\Database\Eloquent\Builder as BuilderContract;
+use Illuminate\Contracts\Database\Eloquent\BuilderContract as BuilderContract;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use OZiTAG\Tager\Backend\Core\Facades\Pagination;
 use OZiTAG\Tager\Backend\Core\Pagination\Paginator;
 use OZiTAG\Tager\Backend\Core\Structures\SortAttributeCollection;
@@ -171,7 +169,7 @@ class EloquentRepository
         );
     }
 
-    public function filter(?array $filter = [], ?Builder $builder = null): ?BuilderContract
+    public function filter(?array $filter = [], ?BuilderContract $builder = null): ?BuilderContract
     {
         $builder = $builder ?? $this->model;
         if (!$filter || empty($filter)) {
@@ -187,7 +185,7 @@ class EloquentRepository
         return $builder;
     }
 
-    public function filterByKey(Builder $builder, string $key, mixed $value): BuilderContract
+    public function filterByKey(BuilderContract $builder, string $key, mixed $value): BuilderContract
     {
         return $builder;
     }
