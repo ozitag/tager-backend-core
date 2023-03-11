@@ -52,14 +52,14 @@ trait FeatureDispatcherTrait
     protected function serve(string|object $feature, array $arguments = []): mixed
     {
         if (is_object($feature)) {
-            return $this->dispatchNow($feature);
+            return $this->dispatchSync($feature);
         }
 
         if (!class_exists($feature)) {
             return $this->serveFeatureByKey($feature, $arguments);
         }
 
-        return $this->dispatchNow(
+        return $this->dispatchSync(
             new $feature(...$arguments)
         );
     }
