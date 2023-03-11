@@ -30,9 +30,9 @@ abstract class Command extends BaseCommand
     public function runJob(string|object $job, array $arguments = []): mixed
     {
         if (is_object($job)) {
-            return app(Dispatcher::class)->dispatchNow($job);
+            return app(Dispatcher::class)->dispatchSync($job);
         } else {
-            return app(Dispatcher::class)->dispatchNow(new $job(...$arguments));
+            return app(Dispatcher::class)->dispatchSync(new $job(...$arguments));
         }
     }
 

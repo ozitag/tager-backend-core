@@ -47,7 +47,7 @@ trait JobDispatcherTrait
             $job = $this->marshal($job, $arguments);
         }
 
-        $method = $job instanceof ShouldQueue ? 'dispatch' : 'dispatchNow';
+        $method = $job instanceof ShouldQueue ? 'dispatch' : 'dispatchSync';
 
         return $this->$method($job);
     }
@@ -58,7 +58,7 @@ trait JobDispatcherTrait
             $job = $this->marshal($job, $arguments);
         }
 
-        return $this->dispatchNow($job);
+        return $this->dispatchSync($job);
     }
 
     public function runInQueue($job, array $arguments = [], $queue = 'default')
