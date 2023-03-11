@@ -12,18 +12,17 @@
     }
   ],
   "require": {
-    "php": "^8.1",
-    "laravel/framework": "^9.0",
-    "laravel/tinker": "^2.7",
+    "php": "^8.2",
+    "laravel/framework": "^10.3",
+    "laravel/tinker": "^2.8",
     "guzzlehttp/guzzle": "^7.2",
-    "fruitcake/laravel-cors": "^2.0.5",
-    "sentry/sentry-laravel": "^2.11",
+    "sentry/sentry-laravel": "^3.2",
     "kalnoy/nestedset": "^6.0",
     "predis/predis": "^1.1",
     "ozitag/tager-backend-http-cache": "^1.0",
     "ozitag/tager-backend-utils": "^1.2",
     "ozerich/laravel-filestorage-db": "^0.5",
-    "doctrine/dbal": "^3.3"
+    "doctrine/dbal": "^3.6"
   },
   "require-dev": {
     "fakerphp/faker": "^1.9.1",
@@ -31,7 +30,7 @@
     "mockery/mockery": "^1.4.4",
     "nunomaduro/collision": "^6.1",
     "phpunit/phpunit": "^9.5.10",
-    "spatie/laravel-ignition": "^1.0"
+    "spatie/laravel-ignition": "^2.0"
   },
   "autoload": {
     "psr-4": {
