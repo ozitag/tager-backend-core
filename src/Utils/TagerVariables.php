@@ -19,7 +19,7 @@ class TagerVariables
         $jobClassName = self::$variableJobs[$variable];
 
         try {
-            $value = dispatch_now(new $jobClassName);
+            $value = dispatch_sync(new $jobClassName);
         } catch (\Exception $exception) {
             $value = null;
         }
