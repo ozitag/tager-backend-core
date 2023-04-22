@@ -4,6 +4,7 @@ namespace OZiTAG\Tager\Backend\Core\Traits;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Support\Facades\Log;
 
 trait JobDispatcherTrait
 {
@@ -36,20 +37,22 @@ trait JobDispatcherTrait
         throw new \Exception("Unable to map parameter [{$parameter->name}] to command [{$command}]");
     }
 
-    protected function runWithHandler(string $job, array $arguments = [])
+    protected function runWithHandler($job, array $arguments = [])
     {
         return $this->withExceptionHandler(fn() => $this->run($job, $arguments));
     }
 
-    public function run($job, $arguments = [])
+    public function run($job, array $arguments = [])
     {
         if (!is_object($job)) {
             $job = $this->marshal($job, $arguments);
         }
 
-        $method = $job instanceof ShouldQueue ? 'dispatch' : 'dispatchSync';
-
-        return $this->$method($job);
+        if ($job instanceof ShouldQueue) {
+            return $this->runInQueue($job, $arguments);
+        } else {
+            return $this->dispatchSync($job);
+        }
     }
 
     public function runNow($job, array $arguments = [])
@@ -61,11 +64,13 @@ trait JobDispatcherTrait
         return $this->dispatchSync($job);
     }
 
-    public function runInQueue($job, array $arguments = [], $queue = 'default')
+    public function runInQueue($job, array $arguments = [], string $queue = 'default')
     {
         if (!is_object($job)) {
             $job = $this->marshal($job, $arguments);
         }
+
+        Log::channel('queue')->info('Run in Queue: ' . $job::class . ' - ' . json_encode($arguments));
 
         $job->onQueue($queue);
 
