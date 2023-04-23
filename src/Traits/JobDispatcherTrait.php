@@ -70,7 +70,7 @@ trait JobDispatcherTrait
             $job = $this->marshal($job, $arguments);
         }
 
-        Log::channel('queue')->info('Run in Queue: ' . $job::class . ' - ' . json_encode($arguments));
+        Log::channel('queue')->info('Run in Queue (' . $queue . '): ' . $job::class . ' - ' . json_encode($arguments));
 
         $job->onQueue($queue);
 

@@ -5,6 +5,7 @@ namespace OZiTAG\Tager\Backend\Core\Console;
 use Illuminate\Console\Command as BaseCommand;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Support\Facades\Log;
 use OZiTAG\Tager\Backend\Utils\Helpers\DateHelper;
 
 abstract class Command extends BaseCommand
@@ -41,6 +42,8 @@ abstract class Command extends BaseCommand
      */
     public function runInQueue(string|object $job, array $arguments = [], string $queue = 'default'): mixed
     {
+        Log::channel('queue')->info('Run in Queue (' . $queue . '): ' . $job::class . ' - ' . json_encode($arguments));
+
         $reflection = new \ReflectionClass($job);
         $jobInstance = $reflection->newInstanceArgs($arguments);
         $jobInstance->onQueue((string)$queue);
