@@ -30,11 +30,14 @@ abstract class ModelResource extends JsonResource
 
         switch ($type) {
             case 'url':
-                return $value->getUrl($thumbnail, true);
+                return $value->getUrl($thumbnail);
             case 'model':
                 return $value->getShortJson($thumbnail);
             case 'json':
-                return $thumbnail ? $value->getThumbnailJson($thumbnail, $scenario) : $value->getFullJson($scenario);
+                if ($scenario) {
+                    $value = $value->setScenario($scenario);
+                }
+                return $thumbnail ? $value->getThumbnailJson($thumbnail) : $value->getFullJson();
             default:
                 return null;
         }
@@ -204,7 +207,7 @@ abstract class ModelResource extends JsonResource
                 case 'latlng':
                     return $this->getLatLngValue($value);
                 case 'float':
-                    return isset($fieldParams[0]) && $fieldParams[0] === 'nullable' && is_null($value) ? null : floatval(number_format((float)$value,10));
+                    return isset($fieldParams[0]) && $fieldParams[0] === 'nullable' && is_null($value) ? null : floatval(number_format((float)$value, 10));
                 case 'int':
                 case 'integer':
                     return isset($fieldParams[0]) && $fieldParams[0] === 'nullable' && is_null($value) ? null : intval($value);
