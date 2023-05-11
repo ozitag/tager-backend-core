@@ -194,6 +194,10 @@ class EloquentRepository
         return $this->model->count();
     }
 
+    public function getTableName(): string
+    {
+        return $this->model->getTable();
+    }
     public function fillAndSave(array $attributes): Model
     {
         $this->model->fill($attributes);
