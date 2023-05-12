@@ -21,7 +21,7 @@
     "predis/predis": "^1.1",
     "ozitag/tager-backend-http-cache": "^1.0",
     "ozitag/tager-backend-utils": "^1.2",
-    "ozerich/laravel-filestorage-db": "^0.6",
+    "ozerich/laravel-filestorage-db": "^0.6.3",
     "doctrine/dbal": "^3.6"
   },
   "require-dev": {

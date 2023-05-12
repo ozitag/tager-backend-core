@@ -25,8 +25,17 @@ abstract class ModelResource extends JsonResource
         }
 
         $type = $params[0] ?? 'url';
-        $thumbnail = $params[1] ?? null;
+        $thumbnailData = $params[1] ?? null;
         $scenario = $params[2] ?? null;
+
+        $thumbnail = null;
+        $thumbnails = $thumbnailData ? array_map(fn($a) => trim($a), explode(',', $thumbnailData)) : [];
+        foreach ($thumbnails as $thumbnailItem) {
+            if ($value->isThumbnailExistsByName($thumbnailItem)) {
+                $thumbnail = $thumbnailItem;
+                break;
+            }
+        }
 
         switch ($type) {
             case 'url':
