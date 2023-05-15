@@ -37,7 +37,7 @@ trait FeatureDispatcherTrait
 
         $featureParams = $arguments;
         foreach ($constructorParams as $ind => $param) {
-            if ($ind < count($arguments)) continue;
+            if ($ind < count($arguments) || ($ind - count($arguments)) < 0 || ($ind - count($arguments)) > count($feature) -1) continue;
             $featureParams[$param->getName()] = $feature[$ind - count($arguments)];
         }
 
