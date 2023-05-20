@@ -116,6 +116,10 @@ class EloquentRepository
 
         $builder = $builder->withDepth()->defaultOrder();
 
+        $builder = $query && $this instanceof ISearchable
+            ? $this->searchByQuery($query, $builder)
+            : $builder;
+
         $builder = $filter && $this instanceof IFilterable
             ? $this->filter($filter, $builder)
             : $builder;
