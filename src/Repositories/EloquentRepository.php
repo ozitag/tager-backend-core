@@ -50,10 +50,13 @@ class EloquentRepository
         return $this->model->create($attributes);
     }
 
-    public function set(Model $model): self
+    public function set(?Model $model): self
     {
-        $this->model = $model;
+        if(!$model){
+            return $this->reset();
+        }
 
+        $this->model = $model;
         return $this;
     }
 
