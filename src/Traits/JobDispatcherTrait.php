@@ -64,15 +64,17 @@ trait JobDispatcherTrait
         return $this->dispatchSync($job);
     }
 
-    public function runInQueue($job, array $arguments = [], string $queue = 'default')
+    public function runInQueue($job, array $arguments = [], string $queue = null)
     {
         if (!is_object($job)) {
             $job = $this->marshal($job, $arguments);
         }
 
-        Log::channel('queue')->info('Run in Queue (' . $queue . '): ' . $job::class . ' - ' . json_encode($arguments));
+        Log::channel('queue')->info('Run in Queue: ' . $job::class . ' - ' . json_encode($arguments));
 
-        $job->onQueue($queue);
+        if ($queue) {
+            $job->onQueue($queue);
+        }
 
         return $this->dispatch($job);
     }

@@ -40,14 +40,16 @@ abstract class Command extends BaseCommand
     /**
      * Run the given job in the given queue.
      */
-    public function runInQueue(string|object $job, array $arguments = [], string $queue = 'default'): mixed
+    public function runInQueue(string|object $job, array $arguments = [], string $queue = null): mixed
     {
-
         $reflection = new \ReflectionClass($job);
         $jobInstance = $reflection->newInstanceArgs($arguments);
-        $jobInstance->onQueue((string)$queue);
 
-        Log::channel('queue')->info('Run in Queue (' . $queue . '): ' . $jobInstance::class . ' - ' . json_encode($arguments));
+        if ($queue) {
+            $jobInstance->onQueue($queue);
+        }
+
+        Log::channel('queue')->info('Run in Queue: ' . $jobInstance::class . ' - ' . json_encode($arguments));
 
         return $this->dispatch($jobInstance);
     }

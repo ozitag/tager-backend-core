@@ -40,7 +40,7 @@ class QueueJob implements ShouldQueue
         return $reflection->newInstanceArgs($injected);
     }
 
-    public function runNow($job, array $arguments = [])
+    public function run($job, array $arguments = [])
     {
         if (!is_object($job)) {
             $job = $this->marshal($job, $arguments);
