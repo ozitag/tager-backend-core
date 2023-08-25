@@ -73,7 +73,13 @@ abstract class ModelResource extends JsonResource
         }
 
         $relation = $field['relation'];
-        $value = $this->{$relation};
+        $parts =  explode('.',$relation);
+
+        $value = $this;
+        foreach($parts as $relation){
+            $value = $value->{$relation};
+        }
+
         if (!$value) {
             return null;
         }
