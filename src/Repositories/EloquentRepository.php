@@ -213,6 +213,14 @@ class EloquentRepository
         return $this->model;
     }
 
+    public function fillAndSaveQuietly(array $attributes): Model
+    {
+        $this->model->fill($attributes);
+        $this->model->saveQuietly();
+
+        return $this->model;
+    }
+
     public function update(array $attributes): ?Model
     {
         $this->model->update($attributes);
