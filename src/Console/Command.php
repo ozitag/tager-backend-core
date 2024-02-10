@@ -71,7 +71,7 @@ abstract class Command extends BaseCommand
         echo $message . "\n";
     }
 
-    protected function log(string $message, bool $lineComplete = true): void
+    protected function getLogMessage(string $message, bool $lineComplete = true): string
     {
         $prefix = ($this->lineCompleted ? DateHelper::getHumanDateTime() . ' - ' : '');
         $logMessage = $prefix . $message;
@@ -82,6 +82,13 @@ abstract class Command extends BaseCommand
         } else {
             $this->lineCompleted = false;
         }
+
+        return $logMessage;
+    }
+
+    protected function log(string $message, bool $lineComplete = true): void
+    {
+        $logMessage = $this->getLogMessage($message, $lineComplete);
 
         echo $logMessage;
 
