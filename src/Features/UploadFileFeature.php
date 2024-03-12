@@ -50,20 +50,10 @@ class UploadFileFeature extends Feature
             $base64 = $request->post('base64');
             $filename = $request->post('filename');
 
-            if (str_starts_with($base64, 'data:image/png;base64,')) {
-                $base64 = substr($base64, strlen('data:image/png;base64,'));
+            if(preg_match('#^data:.+?/(.+?);base64,(.+)$#si', $base64, $base64Preg)){
+                $base64 = $base64Preg[2];
                 if (!$filename) {
-                    $filename = 'file.png';
-                }
-            } else if (str_starts_with($base64, 'data:image/jpeg;base64,')) {
-                $base64 = substr($base64, strlen('data:image/jpeg;base64,'));
-                if (!$filename) {
-                    $filename = 'file.jpg';
-                }
-            } else if (str_starts_with($base64, 'data:image/jpg;base64,')) {
-                $base64 = substr($base64, strlen('data:image/jpg;base64,'));
-                if (!$filename) {
-                    $filename = 'file.jpg';
+                    $filename = 'file.'.$base64Preg[1];
                 }
             }
 
