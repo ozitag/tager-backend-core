@@ -206,7 +206,13 @@ abstract class ModelResource extends JsonResource
         if (mb_strpos($attribute, '.') !== false) {
             $value = $this->getRelationAttribute($model, $attribute);
         } else {
-            $value = $model->{$attribute};
+            try {
+                $value = $model->{$attribute};
+            } catch(\LogicException $exception){
+                if(method_exists($model, $attribute)){
+                    $value = $model->$attribute();
+                }
+            }
         }
 
         if (!empty($fieldParams)) {
