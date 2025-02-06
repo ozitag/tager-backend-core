@@ -228,7 +228,7 @@ abstract class ModelResource extends JsonResource
                 case 'latlng':
                     return $this->getLatLngValue($value);
                 case 'float':
-                    return isset($fieldParams[0]) && $fieldParams[0] === 'nullable' && is_null($value) ? null : floatval(number_format((float)$value, 10));
+                    return isset($fieldParams[0]) && $fieldParams[0] === 'nullable' && is_null($value) ? null : floatval($value);
                 case 'int':
                 case 'integer':
                     return isset($fieldParams[0]) && $fieldParams[0] === 'nullable' && is_null($value) ? null : intval($value);
