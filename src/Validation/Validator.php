@@ -34,12 +34,6 @@ class Validator extends BaseValidator
             $this->passes();
         }
 
-        $attribute = str_replace(
-            [$this->dotPlaceholder, '__asterisk__'],
-            ['.', '*'],
-            $attribute
-        );
-
         if (in_array($rule, $this->excludeRules)) {
             $this->excludeAttribute($attribute);
             return;
