@@ -74,6 +74,8 @@ class ValidationManager
             '/#(\w+)/', fn($i) => count($i) === 2 ? ($params[$i[1]] ?? null) : null, $formatJson
         );
 
+        $errorMessageJson = preg_replace("#\n#si", "\\n", $errorMessageJson);
+
         return (array)json_decode($errorMessageJson);
     }
 
