@@ -9,7 +9,7 @@ use OZiTAG\Tager\Backend\Core\Repositories\EloquentRepository;
 class ModelFeature extends Feature
 {
     public function __construct(
-        protected int                 $id,
+        protected int|string                 $id,
         protected ?string             $jobGetByIdClass,
         protected ?EloquentRepository $repository = null,
         protected ?BuilderContract            $queryBuilder)
