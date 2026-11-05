@@ -17,7 +17,14 @@ class TModel extends BaseModel
         parent::boot();
 
         if (static::$hasUUID) {
-            self::observe(UUIDModelObserver::class);
+            /**
+             * Model::observe() создаёт экземпляр модели, а Laravel 13 запрещает
+             * обращаться к модели во время её же boot(): bootIfNotBooted бросает
+             * LogicException «may not be called on model ... while it is being booted».
+             * Регистрируем единственный хук обсервера напрямую — модель при этом
+             * не создаётся.
+             */
+            static::registerModelEvent('creating', UUIDModelObserver::class . '@creating');
         }
 
         if (static::$defaultOrder) {
