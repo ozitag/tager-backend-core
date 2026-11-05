@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 interface ISearchable
 {
-    public function searchByQuery(?string $query, BuilderContract $builder = null): ?BuilderContract;
+    public function searchByQuery(?string $query, ?BuilderContract $builder = null): ?BuilderContract;
 }

@@ -64,7 +64,7 @@ trait JobDispatcherTrait
         return $this->dispatchSync($job);
     }
 
-    public function runInQueue($job, array $arguments = [], string $queue = null)
+    public function runInQueue($job, array $arguments = [], ?string $queue = null)
     {
         if (!is_object($job)) {
             $job = $this->marshal($job, $arguments);
