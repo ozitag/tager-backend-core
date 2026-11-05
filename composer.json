@@ -19,8 +19,8 @@
     "sentry/sentry-laravel": "^4.29",
     "kalnoy/nestedset": "^7.0",
     "predis/predis": "^3.0",
-    "ozitag/tager-backend-http-cache": "^1.0",
-    "ozitag/tager-backend-utils": "^1.2",
+    "ozitag/tager-backend-http-cache": "^2.0",
+    "ozitag/tager-backend-utils": "^2.0",
     "ozerich/laravel-filestorage-db": "^0.6.26",
     "doctrine/dbal": "^4.5"
   },
