@@ -60,15 +60,15 @@ class EloquentRepository
         return $this;
     }
 
-    public function setById(int $id): self
+    public function setById(int|string $id): self
     {
-        $this->model = $this->find($id);
+        $model = $this->find($id);
 
-        if (!$this->model) {
+        if (!$model) {
             throw new \Exception('Model with id ' . $id . ' not found');
         }
 
-        return $this->set($this->model);
+        return $this->set($model);
     }
 
     /**

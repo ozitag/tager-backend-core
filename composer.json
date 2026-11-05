@@ -12,7 +12,7 @@
     }
   ],
   "require": {
-    "php": "^8.5",
+    "php": "^8.3",
     "laravel/framework": "^13.0",
     "laravel/tinker": "^3.0",
     "guzzlehttp/guzzle": "^7.8|^8.0",
@@ -29,6 +29,8 @@
     "laravel/sail": "^1.69",
     "mockery/mockery": "^1.6",
     "nunomaduro/collision": "^8.6",
+    "orchestra/testbench": "^11.0",
+    "phpunit/phpunit": "^13.0",
     "spatie/laravel-ignition": "^2.12"
   },
   "autoload": {
@@ -40,5 +42,14 @@
     "allow-plugins": {
       "php-http/discovery": true
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "OZiTAG\\Tager\\Backend\\Core\\Tests\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": "phpunit",
+    "test:coverage": "phpunit --coverage-text"
   }
 }

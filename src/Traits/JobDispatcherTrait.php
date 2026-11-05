@@ -2,6 +2,7 @@
 
 namespace OZiTAG\Tager\Backend\Core\Traits;
 
+use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Facades\Log;
@@ -55,13 +56,22 @@ trait JobDispatcherTrait
         }
     }
 
+    /**
+     * Run a job immediately and return its handler's result.
+     *
+     * dispatchSync() cannot be used here: for a ShouldQueue command it pushes
+     * onto the "sync" connection and returns the queue push result (0) rather
+     * than the value handle() returned. dispatchNow() runs the handler through
+     * the bus and hands back its return value for queueable and plain jobs
+     * alike, which is what "run now" is expected to mean.
+     */
     public function runNow($job, array $arguments = [])
     {
         if (!is_object($job)) {
             $job = $this->marshal($job, $arguments);
         }
 
-        return $this->dispatchSync($job);
+        return app(Dispatcher::class)->dispatchNow($job);
     }
 
     public function runInQueue($job, array $arguments = [], ?string $queue = null)

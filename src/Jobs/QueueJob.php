@@ -3,6 +3,7 @@
 namespace OZiTAG\Tager\Backend\Core\Jobs;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -40,12 +41,18 @@ class QueueJob implements ShouldQueue
         return $reflection->newInstanceArgs($injected);
     }
 
+    /**
+     * Run a nested job immediately and return its handler's result.
+     *
+     * See JobDispatcherTrait::runNow() for why dispatch_sync() is unsuitable
+     * when the nested job is itself queueable.
+     */
     public function run($job, array $arguments = [])
     {
         if (!is_object($job)) {
             $job = $this->marshal($job, $arguments);
         }
 
-        return dispatch_sync($job);
+        return app(Dispatcher::class)->dispatchNow($job);
     }
 }
