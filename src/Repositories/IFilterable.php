@@ -7,5 +7,5 @@ use Illuminate\Contracts\Database\Eloquent\Builder as BuilderContract;
 
 interface IFilterable
 {
-    public function filter(?array $filter = [], BuilderContract $builder = null): ?BuilderContract;
+    public function filter(?array $filter = [], ?BuilderContract $builder = null): ?BuilderContract;
 }

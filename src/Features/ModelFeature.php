@@ -12,7 +12,7 @@ class ModelFeature extends Feature
         protected int|string                 $id,
         protected ?string             $jobGetByIdClass,
         protected ?EloquentRepository $repository = null,
-        protected ?BuilderContract            $queryBuilder)
+        protected ?BuilderContract            $queryBuilder = null)
     {
     }
 

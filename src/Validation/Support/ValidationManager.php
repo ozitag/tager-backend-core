@@ -20,7 +20,7 @@ class ValidationManager
     /**
      * @throws LiteValidationException
      */
-    public function throw(?string $fieldName = null, string $message = null, ?string $rule = null): void
+    public function throw(?string $fieldName = null, ?string $message = null, ?string $rule = null): void
     {
         throw new LiteValidationException($message, $fieldName, $rule);
     }

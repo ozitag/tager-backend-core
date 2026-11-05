@@ -8,5 +8,5 @@ use Illuminate\Contracts\Database\Eloquent\Builder as BuilderContract;
 
 interface ISortable
 {
-    public function sort(?string $sort = null, BuilderContract $builder = null): ?BuilderContract;
+    public function sort(?string $sort = null, ?BuilderContract $builder = null): ?BuilderContract;
 }

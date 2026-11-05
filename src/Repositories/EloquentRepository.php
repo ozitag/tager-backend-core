@@ -157,7 +157,7 @@ class EloquentRepository
         );
     }
 
-    public function paginate(Builder $builder = null): Paginator
+    public function paginate(?Builder $builder = null): Paginator
     {
         $builder = $builder ?: $this->model;
 
